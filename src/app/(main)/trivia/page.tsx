@@ -56,17 +56,17 @@ export default function TriviaPage() {
           </CardHeader>
           <CardContent className="grid md:grid-cols-3 gap-4">
             <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
-              <Award className="w-8 h-8 text-primary" />
+              <Award className="w-8 h-8 text-yellow-400" />
               <p className="text-2xl font-bold">#3</p>
               <p className="text-sm text-muted-foreground">Your Rank</p>
             </div>
             <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
-              <Medal className="w-8 h-8 text-primary" />
+              <Medal className="w-8 h-8 text-slate-400" />
               <p className="text-lg font-bold">Cultural Ambassador</p>
               <p className="text-sm text-muted-foreground">Your Title</p>
             </div>
             <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
-              <Zap className="w-8 h-8 text-primary" />
+              <Zap className="w-8 h-8 text-orange-500" />
               <p className="text-2xl font-bold">+50 pts</p>
               <p className="text-sm text-muted-foreground">Streak Bonus</p>
             </div>
