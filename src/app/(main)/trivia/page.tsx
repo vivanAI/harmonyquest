@@ -38,7 +38,7 @@ export default function TriviaPage() {
             <Image
               src="https://placehold.co/1200x400"
               alt="Weekly trivia theme"
-              data-ai-hint="Japanese festival"
+              data-ai-hint="cultural festival"
               fill
               className="object-cover"
             />
@@ -46,12 +46,12 @@ export default function TriviaPage() {
             <div className="absolute bottom-0 left-0 p-6">
               <CardDescription className="text-primary-foreground/80 mb-1">This Week's Theme</CardDescription>
               <h2 className="text-4xl font-extrabold text-white">
-                Japanese Festivals
+                Festivals of Faith
               </h2>
             </div>
           </div>
           <CardContent className="p-6 flex flex-col items-start gap-4">
-            <p className="text-muted-foreground max-w-xl">Test your knowledge on the vibrant and colorful festivals of Japan. Are you ready to prove your expertise?</p>
+            <p className="text-muted-foreground max-w-xl">Test your knowledge on the vibrant and colorful festivals of world religions. Are you ready to prove your expertise?</p>
              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full text-sm">
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-muted">
                     <Award className="w-5 h-5 text-yellow-400" />
