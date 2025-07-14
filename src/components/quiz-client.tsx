@@ -10,6 +10,7 @@ import { Progress } from '@/components/ui/progress'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { CheckCircle2, XCircle, Lightbulb } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useStatsStore } from '@/lib/stats-store'
 
 interface QuizClientProps {
   questions: Question[]
@@ -21,6 +22,7 @@ export function QuizClient({ questions }: QuizClientProps) {
   const [showFeedback, setShowFeedback] = useState(false)
   const [correctAnswers, setCorrectAnswers] = useState(0)
   const [isQuizComplete, setIsQuizComplete] = useState(false)
+  const { addXp } = useStatsStore()
 
   if (questions.length === 0) {
     return (
@@ -47,12 +49,23 @@ export function QuizClient({ questions }: QuizClientProps) {
   }
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
+    const isLastQuestion = currentQuestionIndex >= questions.length - 1;
+
+    if (isLastQuestion) {
+      const accuracy = (correctAnswers / questions.length) * 100
+      let bonusXp = 0
+      if (accuracy === 100) bonusXp = 25
+      else if (accuracy >= 90) bonusXp = 15
+      else if (accuracy >= 75) bonusXp = 5
+      
+      const totalXp = 50 + bonusXp;
+      addXp(totalXp);
+      
+      setIsQuizComplete(true)
+    } else {
       setCurrentQuestionIndex(prev => prev + 1)
       setSelectedAnswer(null)
       setShowFeedback(false)
-    } else {
-      setIsQuizComplete(true)
     }
   }
 
@@ -67,6 +80,7 @@ export function QuizClient({ questions }: QuizClientProps) {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100
 
   if (isQuizComplete) {
+    const finalScore = (correctAnswers / questions.length) * 100
     return (
       <Card>
         <CardHeader>
@@ -74,11 +88,15 @@ export function QuizClient({ questions }: QuizClientProps) {
         </CardHeader>
         <CardContent className="text-center">
           <p className="text-lg">You scored {correctAnswers} out of {questions.length}!</p>
-          <Progress value={(correctAnswers / questions.length) * 100} className="mt-4" />
+          <p className="text-2xl font-bold mt-2">{finalScore.toFixed(0)}%</p>
+          <Progress value={finalScore} className="mt-4" />
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex-col gap-2">
           <Button onClick={handleRestartQuiz} className="w-full">
             Try Again
+          </Button>
+           <Button variant="outline" asChild className="w-full">
+            <a href="/learn">Back to Lessons</a>
           </Button>
         </CardFooter>
       </Card>

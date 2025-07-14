@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -11,7 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Search, UserPlus, Swords } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BadgeCollection } from "@/components/badge-collection"
-import { allBadges } from "@/lib/badges"
+import { useStatsStore } from "@/lib/stats-store"
 
 const friends = [
   { name: "Elena Petrova", username: "@elena", avatar: "https://placehold.co/100x100" },
@@ -20,17 +22,10 @@ const friends = [
   { name: "David Chen", username: "@dave", avatar: "https://placehold.co/100x100" },
 ]
 
-// Mock user progress data - in a real app this would come from a database
-const userProgress = {
-  unlockedBadges: new Set<string>(["Streak Starter", "First Flame"]),
-}
-
-const userBadges = allBadges.map(badge => ({
-  ...badge,
-  unlocked: userProgress.unlockedBadges.has(badge.title),
-}))
-
 export default function FriendsPage() {
+  const { badges } = useStatsStore()
+  const userBadges = Object.values(badges);
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">

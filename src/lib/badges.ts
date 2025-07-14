@@ -1,7 +1,18 @@
 import { type BadgeIconName } from "@/components/badge-icon";
 
+export type BadgeName = 
+  | "Lesson Learner"
+  | "Accuracy Ace"
+  | "Streak Starter"
+  | "Streak Legend"
+  | "Trivia Champion"
+  | "Cultural Explorer"
+  | "Harmony Ambassador"
+  | "First Flame"
+  | "Flashcard Fanatic";
+
 export interface Badge {
-  title: string;
+  title: BadgeName;
   description: string;
   icon: BadgeIconName;
   unlocked?: boolean;

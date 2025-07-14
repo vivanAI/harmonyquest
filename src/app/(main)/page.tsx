@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -10,19 +12,13 @@ import { Progress } from "@/components/ui/progress"
 import { Flame, Star, Trophy, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { BadgeIcon } from "@/components/badge-icon"
+import { useStatsStore } from "@/lib/stats-store"
 
 const learningModules = [
-  { title: "Festivals of Faith", progress: 75, icon: "BookOpen" },
-  { title: "Core Tenets & Beliefs", progress: 40, icon: "BookOpen" },
-  { title: "Sacred Places", progress: 0, icon: "BookOpen" },
+  { title: "Festivals of Faith", progress: 75, icon: "BookOpen" as const },
+  { title: "Core Tenets & Beliefs", progress: 40, icon: "BookOpen" as const },
+  { title: "Sacred Places", progress: 0, icon: "BookOpen" as const },
 ]
-
-// Mock user progress data based on the new system
-const userProgress = {
-  xp: 145,
-  streak: 4,
-  unlockedBadges: new Set<string>(["Streak Starter", "First Flame"]),
-}
 
 // Calculate rank based on XP
 const calculateRank = (xp: number) => {
@@ -33,7 +29,10 @@ const calculateRank = (xp: number) => {
 }
 
 export default function DashboardPage() {
-  const userRank = calculateRank(userProgress.xp);
+  const { xp, streak, badges } = useStatsStore()
+
+  const unlockedBadgesCount = Object.values(badges).filter(b => b.unlocked).length;
+  const userRank = calculateRank(xp);
   
   return (
     <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
@@ -47,7 +46,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Points</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Star className="w-6 h-6 text-yellow-400" /> {userProgress.xp} XP
+              <Star className="w-6 h-6 text-yellow-400" /> {xp} XP
             </CardTitle>
           </CardHeader>
         </Card>
@@ -55,7 +54,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Streak</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Flame className="w-6 h-6 text-orange-500" /> {userProgress.streak} days
+              <Flame className="w-6 h-6 text-orange-500" /> {streak} days
             </CardTitle>
           </CardHeader>
         </Card>
@@ -63,7 +62,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Badges</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Trophy className="w-6 h-6 text-amber-300" /> {userProgress.unlockedBadges.size}
+              <Trophy className="w-6 h-6 text-amber-300" /> {unlockedBadgesCount}
             </CardTitle>
           </CardHeader>
         </Card>
@@ -111,12 +110,12 @@ export default function DashboardPage() {
             <div className="grid gap-6">
               {learningModules.map((mod) => (
                 <div key={mod.title} className="flex items-center gap-4">
-                  <BadgeIcon name={mod.icon as any} className="w-4 h-4 text-muted-foreground" />
+                  <BadgeIcon name={mod.icon} className="w-4 h-4 text-muted-foreground" />
                   <div className="grid gap-1 flex-1">
                     <p className="text-sm font-medium leading-none">
                       {mod.title}
                     </p>
-                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-accent" />
+                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-blue-400" />
                   </div>
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/learn">{mod.progress > 0 ? 'Continue' : 'Start'}</Link>
