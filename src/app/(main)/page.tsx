@@ -28,31 +28,31 @@ export default function DashboardPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Points</CardDescription>
-            <CardTitle className="text-4xl flex items-center gap-2">
-              <Star className="w-8 h-8 text-yellow-400" /> 1,250
+            <CardTitle className="text-3xl flex items-center gap-2">
+              <Star className="w-6 h-6 text-yellow-400" /> 1,250
             </CardTitle>
           </CardHeader>
         </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Streak</CardDescription>
-            <CardTitle className="text-4xl flex items-center gap-2">
-              <Flame className="w-8 h-8 text-orange-500" /> 12 days
+            <CardTitle className="text-3xl flex items-center gap-2">
+              <Flame className="w-6 h-6 text-orange-500" /> 12 days
             </CardTitle>
           </CardHeader>
         </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Badges</CardDescription>
-            <CardTitle className="text-4xl flex items-center gap-2">
-              <Trophy className="w-8 h-8 text-amber-300" /> 5
+            <CardTitle className="text-3xl flex items-center gap-2">
+              <Trophy className="w-6 h-6 text-amber-300" /> 5
             </CardTitle>
           </CardHeader>
         </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Rank</CardDescription>
-            <CardTitle className="text-4xl">#12</CardTitle>
+            <CardTitle className="text-3xl">#12</CardTitle>
           </CardHeader>
         </Card>
       </div>
