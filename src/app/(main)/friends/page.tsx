@@ -12,8 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Search, UserPlus, Swords } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { BadgeCollection } from "@/components/badge-collection"
-import { useStatsStore } from "@/lib/stats-store"
 
 const friends = [
   { name: "Elena Petrova", username: "@elena", avatar: "https://placehold.co/100x100" },
@@ -23,8 +21,6 @@ const friends = [
 ]
 
 export default function FriendsPage() {
-  const { badges } = useStatsStore()
-  const userBadges = Object.values(badges);
 
   return (
     <div className="flex flex-col gap-4">
@@ -39,9 +35,8 @@ export default function FriendsPage() {
         <Input placeholder="Search friends by username..." className="pl-8" />
       </div>
       <Tabs defaultValue="friends">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="friends">Friends</TabsTrigger>
-          <TabsTrigger value="milestones">Milestones</TabsTrigger>
           <TabsTrigger value="rankings">Rankings</TabsTrigger>
         </TabsList>
         <TabsContent value="friends">
@@ -75,9 +70,6 @@ export default function FriendsPage() {
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
-        <TabsContent value="milestones">
-          <BadgeCollection badges={userBadges} />
         </TabsContent>
         <TabsContent value="rankings">
           <Card>

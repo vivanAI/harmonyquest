@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Flame, Star, Trophy, Sparkles } from "lucide-react"
 import Link from "next/link"
-import { BadgeIcon } from "@/components/badge-icon"
 import { useStatsStore } from "@/lib/stats-store"
+import { BookOpen } from "lucide-react"
 
 const learningModules = [
   { title: "Festivals of Faith", progress: 75, icon: "BookOpen" as const },
@@ -29,9 +29,7 @@ const calculateRank = (xp: number) => {
 }
 
 export default function DashboardPage() {
-  const { xp, streak, badges } = useStatsStore()
-
-  const unlockedBadgesCount = Object.values(badges).filter(b => b.unlocked).length;
+  const { xp, streak } = useStatsStore()
   const userRank = calculateRank(xp);
   
   return (
@@ -41,7 +39,7 @@ export default function DashboardPage() {
           Welcome back, Vivan!
         </h1>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Points</CardDescription>
@@ -55,14 +53,6 @@ export default function DashboardPage() {
             <CardDescription>Streak</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
               <Flame className="w-6 h-6 text-orange-500" /> {streak} days
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Badges</CardDescription>
-            <CardTitle className="text-3xl flex items-center gap-2">
-              <Trophy className="w-6 h-6 text-amber-300" /> {unlockedBadgesCount}
             </CardTitle>
           </CardHeader>
         </Card>
@@ -110,12 +100,14 @@ export default function DashboardPage() {
             <div className="grid gap-6">
               {learningModules.map((mod) => (
                 <div key={mod.title} className="flex items-center gap-4">
-                  <BadgeIcon name={mod.icon} className="w-4 h-4 text-muted-foreground" />
+                  <div className="p-2 bg-muted rounded-md">
+                    <BookOpen className="w-4 h-4 text-muted-foreground" />
+                  </div>
                   <div className="grid gap-1 flex-1">
                     <p className="text-sm font-medium leading-none">
                       {mod.title}
                     </p>
-                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-blue-400" />
+                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-green-400" />
                   </div>
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/learn">{mod.progress > 0 ? 'Continue' : 'Start'}</Link>
