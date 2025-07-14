@@ -7,16 +7,41 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { Flame, Star, Trophy, Sparkles, BookOpen } from "lucide-react"
+import { Flame, Star, Trophy, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { BadgeCollection } from "@/components/badge-collection"
+import { allBadges } from "@/lib/badges"
+import { BadgeIcon } from "@/components/badge-icon"
 
 const learningModules = [
-  { title: "Festivals of Faith", progress: 75, icon: <BookOpen className="w-4 h-4 text-muted-foreground" /> },
-  { title: "Core Tenets & Beliefs", progress: 40, icon: <BookOpen className="w-4 h-4 text-muted-foreground" /> },
-  { title: "Sacred Places", progress: 0, icon: <BookOpen className="w-4 h-4 text-muted-foreground" /> },
+  { title: "Festivals of Faith", progress: 75, icon: "BookOpen" },
+  { title: "Core Tenets & Beliefs", progress: 40, icon: "BookOpen" },
+  { title: "Sacred Places", progress: 0, icon: "BookOpen" },
 ]
 
+// Mock user progress data based on the new system
+const userProgress = {
+  xp: 145,
+  streak: 4,
+  unlockedBadges: new Set<string>(["Streak Starter", "First Flame"]),
+}
+
+// Calculate rank based on XP
+const calculateRank = (xp: number) => {
+  if (xp > 1000) return "#1";
+  if (xp > 500) return "#5";
+  if (xp > 200) return "#10";
+  return `#${Math.max(20 - Math.floor(xp / 10), 12)}`; // Simple rank logic
+}
+
+const userBadges = allBadges.map(badge => ({
+  ...badge,
+  unlocked: userProgress.unlockedBadges.has(badge.title),
+}))
+
 export default function DashboardPage() {
+  const userRank = calculateRank(userProgress.xp);
+  
   return (
     <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
       <div className="grid gap-4">
@@ -29,7 +54,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Points</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Star className="w-6 h-6 text-yellow-400" /> 1,250
+              <Star className="w-6 h-6 text-yellow-400" /> {userProgress.xp} XP
             </CardTitle>
           </CardHeader>
         </Card>
@@ -37,7 +62,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Streak</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Flame className="w-6 h-6 text-orange-500" /> 12 days
+              <Flame className="w-6 h-6 text-orange-500" /> {userProgress.streak} days
             </CardTitle>
           </CardHeader>
         </Card>
@@ -45,14 +70,14 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Badges</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Trophy className="w-6 h-6 text-amber-300" /> 5
+              <Trophy className="w-6 h-6 text-amber-300" /> {userProgress.unlockedBadges.size}
             </CardTitle>
           </CardHeader>
         </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Rank</CardDescription>
-            <CardTitle className="text-3xl">#12</CardTitle>
+            <CardTitle className="text-3xl">{userRank}</CardTitle>
           </CardHeader>
         </Card>
       </div>
@@ -82,6 +107,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      <BadgeCollection badges={userBadges} />
+
       <div className="grid gap-4">
         <Card>
           <CardHeader>
@@ -92,7 +120,7 @@ export default function DashboardPage() {
             <div className="grid gap-6">
               {learningModules.map((mod) => (
                 <div key={mod.title} className="flex items-center gap-4">
-                  {mod.icon}
+                  <BadgeIcon name={mod.icon as any} className="w-4 h-4 text-muted-foreground" />
                   <div className="grid gap-1 flex-1">
                     <p className="text-sm font-medium leading-none">
                       {mod.title}
