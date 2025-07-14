@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import {
   Card,
   CardContent,
@@ -24,16 +25,19 @@ const races = [
   { name: "Eurasian", image: "https://placehold.co/400x300", hint: "cultural fusion" },
 ]
 
-function CultureCard({ name, image, hint }: { name: string, image: string, hint: string }) {
+function CultureCard({ name, image, hint, category }: { name: string, image: string, hint: string, category: string }) {
+  const slug = name.toLowerCase().replace(/ /g, "-").replace(/ʼ/g, "");
   return (
-    <Card className="overflow-hidden group cursor-pointer">
-      <div className="relative aspect-video">
-        <Image src={image} alt={name} data-ai-hint={hint} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
-      </div>
-      <CardContent className="p-4">
-        <h3 className="font-semibold text-lg">{name}</h3>
-      </CardContent>
-    </Card>
+    <Link href={`/library/${category}/${slug}`} className="block h-full">
+        <Card className="overflow-hidden group cursor-pointer h-full flex flex-col">
+        <div className="relative aspect-video">
+            <Image src={image} alt={name} data-ai-hint={hint} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+        </div>
+        <CardContent className="p-4 flex-grow">
+            <h3 className="font-semibold text-lg">{name}</h3>
+        </CardContent>
+        </Card>
+    </Link>
   )
 }
 
@@ -54,14 +58,14 @@ export default function LibraryPage() {
         <TabsContent value="religions">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
             {religions.map((item) => (
-              <CultureCard key={item.name} {...item} />
+              <CultureCard key={item.name} {...item} category="religions" />
             ))}
           </div>
         </TabsContent>
         <TabsContent value="races">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
             {races.map((item) => (
-              <CultureCard key={item.name} {...item} />
+              <CultureCard key={item.name} {...item} category="races" />
             ))}
           </div>
         </TabsContent>
