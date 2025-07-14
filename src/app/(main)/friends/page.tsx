@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Search, UserPlus, Swords } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { BadgeCollection } from "@/components/badge-collection"
+import { allBadges } from "@/lib/badges"
 
 const friends = [
   { name: "Elena Petrova", username: "@elena", avatar: "https://placehold.co/100x100" },
@@ -17,6 +19,16 @@ const friends = [
   { name: "Fatima Al-Jamil", username: "@fatima", avatar: "https://placehold.co/100x100" },
   { name: "David Chen", username: "@dave", avatar: "https://placehold.co/100x100" },
 ]
+
+// Mock user progress data - in a real app this would come from a database
+const userProgress = {
+  unlockedBadges: new Set<string>(["Streak Starter", "First Flame"]),
+}
+
+const userBadges = allBadges.map(badge => ({
+  ...badge,
+  unlocked: userProgress.unlockedBadges.has(badge.title),
+}))
 
 export default function FriendsPage() {
   return (
@@ -70,17 +82,7 @@ export default function FriendsPage() {
           </Card>
         </TabsContent>
         <TabsContent value="milestones">
-          <Card>
-            <CardHeader>
-              <CardTitle>Community Milestones</CardTitle>
-              <CardDescription>
-                See the latest achievements from your friends.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center justify-center h-48">
-              <p className="text-muted-foreground">No new milestones.</p>
-            </CardContent>
-          </Card>
+          <BadgeCollection badges={userBadges} />
         </TabsContent>
         <TabsContent value="rankings">
           <Card>

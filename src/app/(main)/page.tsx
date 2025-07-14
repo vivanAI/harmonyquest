@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Flame, Star, Trophy, Sparkles } from "lucide-react"
 import Link from "next/link"
-import { BadgeCollection } from "@/components/badge-collection"
-import { allBadges } from "@/lib/badges"
 import { BadgeIcon } from "@/components/badge-icon"
 
 const learningModules = [
@@ -33,11 +31,6 @@ const calculateRank = (xp: number) => {
   if (xp > 200) return "#10";
   return `#${Math.max(20 - Math.floor(xp / 10), 12)}`; // Simple rank logic
 }
-
-const userBadges = allBadges.map(badge => ({
-  ...badge,
-  unlocked: userProgress.unlockedBadges.has(badge.title),
-}))
 
 export default function DashboardPage() {
   const userRank = calculateRank(userProgress.xp);
@@ -108,8 +101,6 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <BadgeCollection badges={userBadges} />
-
       <div className="grid gap-4">
         <Card>
           <CardHeader>
@@ -125,7 +116,7 @@ export default function DashboardPage() {
                     <p className="text-sm font-medium leading-none">
                       {mod.title}
                     </p>
-                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-blue-400" />
+                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-accent" />
                   </div>
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/learn">{mod.progress > 0 ? 'Continue' : 'Start'}</Link>
