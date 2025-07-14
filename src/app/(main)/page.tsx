@@ -97,7 +97,7 @@ export default function DashboardPage() {
                     <p className="text-sm font-medium leading-none">
                       {mod.title}
                     </p>
-                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-green-500" />
+                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-blue-400" />
                   </div>
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/learn">{mod.progress > 0 ? 'Continue' : 'Start'}</Link>

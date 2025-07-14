@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import Link from "next/link"
+import { slugify } from "@/lib/utils"
 
 const learningModules = [
   {
@@ -59,11 +61,15 @@ export default function LearnPage() {
               <CardDescription>{mod.description}</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
-              <Progress value={mod.progress} indicatorClassName="bg-green-500" aria-label={`${mod.progress}% complete`} />
+              <Progress value={mod.progress} indicatorClassName="bg-blue-400" aria-label={`${mod.progress}% complete`} />
               <p className="text-sm text-muted-foreground mt-2">{mod.progress}% complete</p>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-green-500 hover:bg-green-600">{mod.progress > 0 ? 'Continue Lesson' : 'Start Lesson'}</Button>
+              <Button className="w-full bg-blue-500 hover:bg-blue-600" asChild>
+                <Link href={`/learn/${slugify(mod.title)}`}>
+                  {mod.progress > 0 ? 'Continue Lesson' : 'Start Lesson'}
+                </Link>
+              </Button>
             </CardFooter>
           </Card>
         ))}
