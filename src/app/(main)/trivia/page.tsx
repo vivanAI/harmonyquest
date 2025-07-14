@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Crown } from "lucide-react"
+import { Crown, Award, Medal, Zap } from "lucide-react"
 
 const leaderboard = [
   { rank: 1, name: "Elena Petrova", score: 1450, avatar: "https://placehold.co/100x100" },
@@ -55,17 +55,20 @@ export default function TriviaPage() {
             <CardTitle>Your Trivia Stats</CardTitle>
           </CardHeader>
           <CardContent className="grid md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center">
+            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
+              <Award className="w-8 h-8 text-primary" />
+              <p className="text-2xl font-bold">#3</p>
               <p className="text-sm text-muted-foreground">Your Rank</p>
-              <p className="text-3xl font-bold">#3</p>
             </div>
-            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center">
+            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
+              <Medal className="w-8 h-8 text-primary" />
+              <p className="text-lg font-bold">Cultural Ambassador</p>
               <p className="text-sm text-muted-foreground">Your Title</p>
-              <p className="text-3xl font-bold text-center">Cultural Ambassador</p>
             </div>
-            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center">
+            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
+              <Zap className="w-8 h-8 text-primary" />
+              <p className="text-2xl font-bold">+50 pts</p>
               <p className="text-sm text-muted-foreground">Streak Bonus</p>
-              <p className="text-3xl font-bold">+50 pts</p>
             </div>
           </CardContent>
         </Card>
