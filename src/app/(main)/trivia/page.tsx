@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -29,88 +28,97 @@ const leaderboard = [
 
 export default function TriviaPage() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div className="lg:col-span-2 flex flex-col gap-8">
-        <Card className="relative overflow-hidden flex flex-col justify-between min-h-[400px]">
-          <Image
-            src="https://placehold.co/800x400"
-            alt="Weekly trivia theme"
-            data-ai-hint="Japanese festival"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-          <CardHeader className="relative z-10">
-            <CardDescription className="text-primary-foreground/80">This Week's Challenge</CardDescription>
-            <CardTitle className="text-4xl font-extrabold text-white">
-              Japanese Festivals
-            </CardTitle>
-          </CardHeader>
-          <CardFooter className="relative z-10">
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">Start Challenge</Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Your Trivia Stats</CardTitle>
-          </CardHeader>
-          <CardContent className="grid md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
-              <Award className="w-8 h-8 text-yellow-400" />
-              <p className="text-2xl font-bold">#3</p>
-              <p className="text-sm text-muted-foreground">Your Rank</p>
+    <div className="flex flex-col gap-8">
+      
+      {/* Weekly Challenge Section */}
+      <div className="flex flex-col gap-4">
+        <h1 className="text-3xl font-bold tracking-tight">Weekly Trivia Challenge</h1>
+        <Card className="overflow-hidden">
+          <div className="relative h-64 w-full">
+            <Image
+              src="https://placehold.co/1200x400"
+              alt="Weekly trivia theme"
+              data-ai-hint="Japanese festival"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            <div className="absolute bottom-0 left-0 p-6">
+              <CardDescription className="text-primary-foreground/80 mb-1">This Week's Theme</CardDescription>
+              <h2 className="text-4xl font-extrabold text-white">
+                Japanese Festivals
+              </h2>
             </div>
-            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
-              <Medal className="w-8 h-8 text-slate-400" />
-              <p className="text-lg font-bold">Cultural Ambassador</p>
-              <p className="text-sm text-muted-foreground">Your Title</p>
+          </div>
+          <CardContent className="p-6 flex flex-col items-start gap-4">
+            <p className="text-muted-foreground max-w-xl">Test your knowledge on the vibrant and colorful festivals of Japan. Are you ready to prove your expertise?</p>
+             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full text-sm">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted">
+                    <Award className="w-5 h-5 text-yellow-400" />
+                    <div className="flex flex-col">
+                        <span className="text-muted-foreground">Your Rank</span>
+                        <span className="font-bold text-base">#3</span>
+                    </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted">
+                    <Medal className="w-5 h-5 text-slate-400" />
+                     <div className="flex flex-col">
+                        <span className="text-muted-foreground">Your Title</span>
+                        <span className="font-semibold text-base">Cultural Ambassador</span>
+                    </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted">
+                    <Zap className="w-5 h-5 text-orange-500" />
+                     <div className="flex flex-col">
+                        <span className="text-muted-foreground">Streak Bonus</span>
+                        <span className="font-bold text-base">+50 pts</span>
+                    </div>
+                </div>
             </div>
-            <div className="p-4 rounded-lg bg-muted flex flex-col items-center justify-center text-center gap-2">
-              <Zap className="w-8 h-8 text-orange-500" />
-              <p className="text-2xl font-bold">+50 pts</p>
-              <p className="text-sm text-muted-foreground">Streak Bonus</p>
-            </div>
+            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 w-full sm:w-auto">
+              <Zap className="mr-2 h-5 w-5"/>
+              Start Challenge
+            </Button>
           </CardContent>
         </Card>
       </div>
 
-      <div className="lg:col-span-1">
-        <Card>
-          <CardHeader>
-            <CardTitle>Weekly Leaderboard</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[50px]">Rank</TableHead>
-                  <TableHead>Player</TableHead>
-                  <TableHead className="text-right">Score</TableHead>
+      <Card>
+        <CardHeader>
+          <CardTitle>Weekly Leaderboard</CardTitle>
+          <CardDescription>See how you stack up against the competition.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[50px]">Rank</TableHead>
+                <TableHead>Player</TableHead>
+                <TableHead className="text-right">Score</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {leaderboard.map((player, index) => (
+                <TableRow key={player.rank} className={player.name === 'Vivan Sharma' ? 'bg-primary/10' : ''}>
+                  <TableCell className="font-bold text-lg text-center">
+                    {index === 0 ? <Crown className="w-6 h-6 text-yellow-400 mx-auto" /> : player.rank}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-9 w-9">
+                        <AvatarImage src={player.avatar} alt={player.name} />
+                        <AvatarFallback>{player.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <span className="font-medium">{player.name}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right font-mono text-lg">{player.score}</TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {leaderboard.map((player, index) => (
-                  <TableRow key={player.rank} className={player.name === 'Vivan Sharma' ? 'bg-primary/10' : ''}>
-                    <TableCell className="font-medium text-center">
-                      {index === 0 ? <Crown className="w-5 h-5 text-yellow-400" /> : player.rank}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Avatar className="h-8 w-8">
-                          <AvatarImage src={player.avatar} alt={player.name} />
-                          <AvatarFallback>{player.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <span>{player.name}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right font-mono">{player.score}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   )
 }
