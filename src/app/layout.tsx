@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const sourceCodePro = Source_Code_Pro({ subsets: ['latin'], variable: '--font-source-code-pro'})
 
 export const metadata: Metadata = {
-  title: 'Symphony of Cultures',
+  title: 'Harmony Quest',
   description: 'An app for cultural exploration and understanding.',
 };
 

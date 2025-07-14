@@ -35,7 +35,7 @@ export function AppSidebar() {
             <div className="p-1.5 rounded-lg bg-primary">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-foreground"><path d="M5.13 5.13C5.55 4.71 6.2 4.5 7 4.5h2.3c.3 0 .6.1.8.4l5.6 5.6c.2.2.3.5.3.8V14a2 2 0 0 1-2 2h-1.5a2 2 0 0 0-2 2v1.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-2.3c0-.3.1-.6.4-.8l5.6-5.6c.2-.2.5-.3.8-.3H14a2 2 0 0 0 2-2v-1.5a2 2 0 0 1 2-2H19c.8 0 1.5.21 1.97.63"/></svg>
             </div>
-            <span className="font-semibold text-lg">Symphony</span>
+            <span className="font-semibold text-lg">Harmony Quest</span>
         </div>
       </SidebarHeader>
       <SidebarContent className="p-2">
