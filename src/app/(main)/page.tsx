@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Flame, Star, Trophy, Sparkles } from "lucide-react"
 import Link from "next/link"
-import { useStatsStore } from "@/lib/stats-store"
+import { useEffect, useState } from "react"
 import { BookOpen } from "lucide-react"
 
 const learningModules = [
@@ -29,8 +29,14 @@ const calculateRank = (xp: number) => {
 }
 
 export default function DashboardPage() {
-  const { xp, streak } = useStatsStore()
-  const userRank = calculateRank(xp);
+  const [userStats, setUserStats] = useState<{ xp: number; streak_count: number }>({ xp: 0, streak_count: 0 });
+  useEffect(() => {
+    fetch("http://localhost:8000/users/me")
+      .then(res => res.json())
+      .then(data => setUserStats({ xp: data.xp || 0, streak_count: data.streak_count || 0 }))
+      .catch(() => setUserStats({ xp: 0, streak_count: 0 }));
+  }, []);
+  const userRank = calculateRank(userStats.xp);
   
   return (
     <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
@@ -44,7 +50,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Points</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Star className="w-6 h-6 text-yellow-400" /> {xp} XP
+              <Star className="w-6 h-6 text-yellow-400" /> {userStats.xp} XP
             </CardTitle>
           </CardHeader>
         </Card>
@@ -52,7 +58,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Streak</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Flame className="w-6 h-6 text-orange-500" /> {streak} days
+              <Flame className="w-6 h-6 text-orange-500" /> {userStats.streak_count} days
             </CardTitle>
           </CardHeader>
         </Card>
