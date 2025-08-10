@@ -17,12 +17,6 @@ export default function AuthPage() {
           <Button variant="outline" className="w-full" onClick={() => signIn("google", { callbackUrl: "/" })}>
             Continue with Google
           </Button>
-          <Button variant="outline" className="w-full" onClick={() => signIn("azure-ad", { callbackUrl: "/" })}>
-            Continue with Microsoft
-          </Button>
-          <Button variant="outline" className="w-full" onClick={() => signIn("apple", { callbackUrl: "/" })}>
-            Continue with Apple
-          </Button>
           <Separator className="my-2" />
           <p className="text-xs text-muted-foreground text-center">
             By continuing you agree to our Terms and acknowledge our Privacy Policy.

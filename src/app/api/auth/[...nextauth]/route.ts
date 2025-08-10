@@ -1,11 +1,9 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import AzureADProvider from "next-auth/providers/azure-ad";
-import AppleProvider from "next-auth/providers/apple";
 
-const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE || "http://localhost:8000";
+const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE || "http://192.168.18.4:8000";
 
-// Build providers conditionally to avoid type errors when envs are missing
+// Only Google provider for now
 const providers: NextAuthOptions["providers"] = [];
 
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
@@ -13,38 +11,6 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    })
-  );
-}
-
-if (
-  process.env.AZURE_AD_CLIENT_ID &&
-  process.env.AZURE_AD_CLIENT_SECRET &&
-  (process.env.AZURE_AD_TENANT_ID || "common")
-) {
-  providers.push(
-    AzureADProvider({
-      clientId: process.env.AZURE_AD_CLIENT_ID,
-      clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-      tenantId: process.env.AZURE_AD_TENANT_ID || "common",
-    })
-  );
-}
-
-if (
-  process.env.APPLE_CLIENT_ID &&
-  process.env.APPLE_TEAM_ID &&
-  process.env.APPLE_KEY_ID &&
-  process.env.APPLE_PRIVATE_KEY
-) {
-  providers.push(
-    AppleProvider({
-      clientId: process.env.APPLE_CLIENT_ID,
-      clientSecret: {
-        teamId: process.env.APPLE_TEAM_ID,
-        privateKey: (process.env.APPLE_PRIVATE_KEY as string).split("\\n").join("\n"),
-        keyId: process.env.APPLE_KEY_ID,
-      } as any, // Only constructed when all envs exist
     })
   );
 }
