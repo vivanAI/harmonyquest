@@ -9,15 +9,16 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { Flame, Star, Trophy, Sparkles } from "lucide-react"
+import { Flame, Star, Sparkles } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
 import { BookOpen } from "lucide-react"
+import { useStatsStore } from "@/lib/stats-store"
+import { useAuthStore } from "@/lib/auth-store"
 
 const learningModules = [
-  { title: "Festivals of Faith", progress: 75, icon: "BookOpen" as const },
-  { title: "Core Tenets & Beliefs", progress: 40, icon: "BookOpen" as const },
-  { title: "Sacred Places", progress: 0, icon: "BookOpen" as const },
+  { title: "Festivals of Faith", slug: "festivals-of-faith", icon: "BookOpen" as const },
+  { title: "Core Tenets & Beliefs", slug: "core-tenets-beliefs", icon: "BookOpen" as const },
+  { title: "Sacred Places", slug: "sacred-places", icon: "BookOpen" as const },
 ]
 
 // Calculate rank based on XP
@@ -29,20 +30,15 @@ const calculateRank = (xp: number) => {
 }
 
 export default function DashboardPage() {
-  const [userStats, setUserStats] = useState<{ xp: number; streak_count: number }>({ xp: 0, streak_count: 0 });
-  useEffect(() => {
-    fetch("http://localhost:8000/users/me")
-      .then(res => res.json())
-      .then(data => setUserStats({ xp: data.xp || 0, streak_count: data.streak_count || 0 }))
-      .catch(() => setUserStats({ xp: 0, streak_count: 0 }));
-  }, []);
-  const userRank = calculateRank(userStats.xp);
+  const { xp, streak, resetStats, getLessonProgress } = useStatsStore();
+  const { user } = useAuthStore();
+  const userRank = calculateRank(xp);
   
   return (
     <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
       <div className="grid gap-4">
         <h1 className="text-3xl font-bold tracking-tight">
-          Welcome back, Vivan!
+          Welcome back, {user?.name || 'User'}!
         </h1>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -50,7 +46,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Points</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Star className="w-6 h-6 text-yellow-400" /> {userStats.xp} XP
+              <Star className="w-6 h-6 text-yellow-400" /> {xp} XP
             </CardTitle>
           </CardHeader>
         </Card>
@@ -58,7 +54,7 @@ export default function DashboardPage() {
           <CardHeader className="pb-2">
             <CardDescription>Streak</CardDescription>
             <CardTitle className="text-3xl flex items-center gap-2">
-              <Flame className="w-6 h-6 text-orange-500" /> {userStats.streak_count} days
+              <Flame className="w-6 h-6 text-orange-500" /> {streak} days
             </CardTitle>
           </CardHeader>
         </Card>
@@ -68,6 +64,17 @@ export default function DashboardPage() {
             <CardTitle className="text-3xl">{userRank}</CardTitle>
           </CardHeader>
         </Card>
+      </div>
+      
+      {/* Temporary Reset Button - Remove after testing */}
+      <div className="flex justify-center">
+        <Button 
+          variant="outline" 
+          onClick={resetStats}
+          className="bg-red-50 hover:bg-red-100 border-red-200 text-red-700"
+        >
+          Reset Stats (Testing)
+        </Button>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="flex flex-col">
@@ -104,22 +111,25 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              {learningModules.map((mod) => (
-                <div key={mod.title} className="flex items-center gap-4">
-                  <div className="p-2 bg-muted rounded-md">
-                    <BookOpen className="w-4 h-4 text-muted-foreground" />
+              {learningModules.map((mod) => {
+                const progress = getLessonProgress(mod.slug);
+                return (
+                  <div key={mod.title} className="flex items-center gap-4">
+                    <div className="p-2 bg-muted rounded-md">
+                      <BookOpen className="w-4 h-4 text-muted-foreground" />
+                    </div>
+                    <div className="grid gap-1 flex-1">
+                      <p className="text-sm font-medium leading-none">
+                        {mod.title}
+                      </p>
+                      <Progress value={progress} aria-label={`${progress}% complete`} indicatorClassName="bg-green-400" />
+                    </div>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href="/learn">{progress > 0 ? 'Continue' : 'Start'}</Link>
+                    </Button>
                   </div>
-                  <div className="grid gap-1 flex-1">
-                    <p className="text-sm font-medium leading-none">
-                      {mod.title}
-                    </p>
-                    <Progress value={mod.progress} aria-label={`${mod.progress}% complete`} indicatorClassName="bg-green-400" />
-                  </div>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/learn">{mod.progress > 0 ? 'Continue' : 'Start'}</Link>
-                  </Button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </CardContent>
         </Card>

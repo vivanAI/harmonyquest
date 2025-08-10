@@ -8,7 +8,7 @@ from jose import jwt
 from datetime import datetime, timedelta
 from app.config import settings
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 import re
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -65,6 +65,14 @@ def get_current_user(db: Session = Depends(get_db), user_id: int = 1):  # TODO: 
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+class UserUpdateRequest(BaseModel):
+    xp: Optional[int] = None
+    streak_count: Optional[int] = None
+
+class LessonCompleteRequest(BaseModel):
+    lesson_slug: str
+    xp_earned: int
+
 class LessonProgressResponse(BaseModel):
     id: int
     title: str
@@ -73,6 +81,55 @@ class LessonProgressResponse(BaseModel):
 
 def slugify(title):
     return re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+
+@router.put("/me", response_model=UserResponse)
+def update_user_progress(update_data: UserUpdateRequest, db: Session = Depends(get_db), user_id: int = 1):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if update_data.xp is not None:
+        user.xp = update_data.xp
+    if update_data.streak_count is not None:
+        user.streak_count = update_data.streak_count
+    
+    db.commit()
+    db.refresh(user)
+    return user
+
+@router.post("/me/lessons/complete")
+def complete_lesson(lesson_data: LessonCompleteRequest, db: Session = Depends(get_db), user_id: int = 1):
+    # Find lesson by slug
+    lesson = db.query(Lesson).filter(Lesson.title.ilike(f"%{lesson_data.lesson_slug.replace('-', ' ')}%")).first()
+    if not lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+    
+    # Check if lesson already completed
+    existing_transaction = db.query(XPTransaction).filter(
+        XPTransaction.user_id == user_id,
+        XPTransaction.lesson_id == lesson.id
+    ).first()
+    
+    if existing_transaction:
+        return {"message": "Lesson already completed", "lesson_id": lesson.id}
+    
+    # Create XP transaction for lesson completion
+    xp_transaction = XPTransaction(
+        user_id=user_id,
+        lesson_id=lesson.id,
+        xp_earned=lesson_data.xp_earned,
+        transaction_type="lesson_completion",
+        created_at=datetime.utcnow()
+    )
+    db.add(xp_transaction)
+    
+    # Update user's total XP
+    user = db.query(User).filter(User.id == user_id).first()
+    if user:
+        user.xp = (user.xp or 0) + lesson_data.xp_earned
+    
+    db.commit()
+    return {"message": "Lesson completed successfully", "lesson_id": lesson.id, "xp_earned": lesson_data.xp_earned}
 
 @router.get("/me/lessons", response_model=List[LessonProgressResponse])
 def get_user_lessons(db: Session = Depends(get_db), user_id: int = 1):

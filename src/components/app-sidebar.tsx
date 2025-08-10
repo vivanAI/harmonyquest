@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Home, BookOpen, Swords, Users, Library, Bot, Settings, LifeBuoy } from "lucide-react"
+import { useAuthStore } from "@/lib/auth-store"
 
 import {
   Sidebar,
@@ -27,6 +28,7 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const { user, isAuthenticated } = useAuthStore()
 
   return (
     <Sidebar>
@@ -72,16 +74,28 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
         <Separator className="my-2" />
-        <div className="flex items-center gap-3 p-2 rounded-md hover:bg-sidebar-accent transition-colors">
+        <Link 
+          href={isAuthenticated ? "/profile" : "/auth"} 
+          className="flex items-center gap-3 p-2 rounded-md hover:bg-sidebar-accent transition-colors cursor-pointer"
+        >
             <Avatar className="h-10 w-10">
-                <AvatarImage src="https://placehold.co/100x100" alt="Vivan" />
-                <AvatarFallback>V</AvatarFallback>
+                <AvatarImage 
+                  src={user?.avatar || "https://placehold.co/100x100"} 
+                  alt={user?.name || "User"} 
+                />
+                <AvatarFallback>
+                  {user?.name?.charAt(0).toUpperCase() || "?"}
+                </AvatarFallback>
             </Avatar>
             <div className="overflow-hidden">
-                <p className="font-semibold truncate">Vivan Sharma</p>
-                <p className="text-xs text-muted-foreground truncate">vivan.sharma@example.com</p>
+                <p className="font-semibold truncate">
+                  {user?.name || "Sign In"}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">
+                  {user?.email || "Click to login or register"}
+                </p>
             </div>
-        </div>
+        </Link>
       </SidebarFooter>
     </Sidebar>
   )

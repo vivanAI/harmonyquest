@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useStatsStore } from "@/lib/stats-store";
+import { useAuthStore } from "@/lib/auth-store";
 
 export default function LessonDetailPage() {
   const { slug } = useParams();
@@ -8,7 +10,9 @@ export default function LessonDetailPage() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]); // index of selected answer per question
   const [showResults, setShowResults] = useState(false);
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const { addXp, completeLesson, completeLessonOnBackend } = useStatsStore();
+  const { user, token } = useAuthStore();
 
   useEffect(() => {
     fetch("http://localhost:8000/lessons")
@@ -26,28 +30,49 @@ export default function LessonDetailPage() {
     const newAnswers = [...answers];
     newAnswers[current] = answerIdx;
     setAnswers(newAnswers);
-    setShowExplanation(false); // Hide explanation on new selection
+    setShowFeedback(false); // Hide feedback on new selection
+  };
+
+  const handleCheck = () => {
+    setShowFeedback(true);
   };
 
   const handleNext = () => {
-    setShowExplanation(false);
+    setShowFeedback(false);
     if (current < questions.length - 1) {
       setCurrent(current + 1);
     } else {
-      // TODO: Submit answers to backend for progress tracking
+      // Calculate XP based on correct answers
+      let correctCount = 0;
+      questions.forEach((q: any, idx: number) => {
+        const selected = answers[idx];
+        if (selected !== undefined && q.answers[selected]?.correct) {
+          correctCount++;
+        }
+      });
+      
+      // Award XP: 10 XP per correct answer
+      const xpEarned = correctCount * 10;
+      addXp(xpEarned);
+      completeLesson(lesson.slug);
+      
+      // Complete lesson on backend if user is authenticated
+      if (user && token) {
+        console.log('Completing lesson on backend:', lesson.slug);
+        completeLessonOnBackend(lesson.slug, xpEarned, token).catch((error: any) => {
+          console.error('Failed to complete lesson on backend:', error);
+        });
+      }
+      
       setShowResults(true);
     }
-  };
-
-  const handleShowExplanation = () => {
-    setShowExplanation(true);
   };
 
   const handleRestart = () => {
     setCurrent(0);
     setAnswers([]);
     setShowResults(false);
-    setShowExplanation(false);
+    setShowFeedback(false);
   };
 
   if (showResults) {
@@ -70,7 +95,10 @@ export default function LessonDetailPage() {
             );
           })}
         </div>
-        <div className="mt-8 text-xl font-bold">You got {correctCount} out of {questions.length} correct!</div>
+        <div className="mt-8 space-y-2">
+          <div className="text-xl font-bold">You got {correctCount} out of {questions.length} correct!</div>
+          <div className="text-lg text-green-600 font-semibold">🎉 +{correctCount * 10} XP earned!</div>
+        </div>
         <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={handleRestart}>Restart Quiz</button>
       </div>
     );
@@ -78,6 +106,7 @@ export default function LessonDetailPage() {
 
   const q = questions[current];
   const selected = answers[current];
+  const isCorrect = selected !== undefined && q.answers[selected]?.correct;
 
   return (
     <div className="max-w-2xl mx-auto py-8">
@@ -94,31 +123,40 @@ export default function LessonDetailPage() {
                   checked={selected === i}
                   onChange={() => handleSelect(i)}
                   className="accent-blue-500"
+                  disabled={showFeedback}
                 />
                 {a.text}
               </label>
             </li>
           ))}
         </ul>
-        {showExplanation && selected !== undefined && (
-          <div className="mt-2 text-sm text-muted-foreground">{q.explanation}</div>
+        {showFeedback && selected !== undefined && (
+          <div className="mt-2 text-sm">
+            <span className={isCorrect ? "text-green-500 font-bold" : "text-red-500 font-bold"}>
+              {isCorrect ? "Correct!" : "Incorrect."}
+            </span>
+            <span className="block text-muted-foreground mt-1">{q.explanation}</span>
+          </div>
         )}
       </div>
       <div className="flex gap-2">
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={() => { handleShowExplanation(); }}
-          disabled={selected === undefined}
-        >
-          Show Explanation
-        </button>
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={handleNext}
-          disabled={selected === undefined}
-        >
-          {current === questions.length - 1 ? "Finish" : "Next"}
-        </button>
+        {!showFeedback && (
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+            onClick={handleCheck}
+            disabled={selected === undefined}
+          >
+            Check Answer
+          </button>
+        )}
+        {showFeedback && (
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+            onClick={handleNext}
+          >
+            {current === questions.length - 1 ? "Finish" : "Next"}
+          </button>
+        )}
       </div>
     </div>
   );
