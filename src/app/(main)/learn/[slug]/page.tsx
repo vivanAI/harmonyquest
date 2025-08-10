@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useStatsStore } from "@/lib/stats-store";
-import { useAuthStore } from "@/lib/auth-store";
+import { useSession } from "next-auth/react";
 
 export default function LessonDetailPage() {
   const { slug } = useParams();
@@ -12,7 +12,7 @@ export default function LessonDetailPage() {
   const [showResults, setShowResults] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const { addXp, completeLesson, completeLessonOnBackend } = useStatsStore();
-  const { user, token } = useAuthStore();
+  const { data: session } = useSession();
 
   useEffect(() => {
     fetch("http://localhost:8000/lessons")
@@ -56,10 +56,10 @@ export default function LessonDetailPage() {
       addXp(xpEarned);
       completeLesson(lesson.slug);
       
-      // Complete lesson on backend if user is authenticated
-      if (user && token) {
+      // Complete lesson on backend if user is authenticated via NextAuth
+      if (session?.backendToken) {
         console.log('Completing lesson on backend:', lesson.slug);
-        completeLessonOnBackend(lesson.slug, xpEarned, token).catch((error: any) => {
+        completeLessonOnBackend(lesson.slug, xpEarned, session.backendToken).catch((error: any) => {
           console.error('Failed to complete lesson on backend:', error);
         });
       }

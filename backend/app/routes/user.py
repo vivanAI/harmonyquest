@@ -82,6 +82,44 @@ class LessonProgressResponse(BaseModel):
 def slugify(title):
     return re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
 
+class OAuthUpsertRequest(BaseModel):
+    email: str
+    name: Optional[str] = None
+    avatar: Optional[str] = None
+
+@router.post("/oauth_upsert", response_model=LoginResponse)
+def oauth_upsert(payload: OAuthUpsertRequest, db: Session = Depends(get_db)):
+    # Find existing user by email
+    user = db.query(User).filter(User.email == payload.email).first()
+    if not user:
+        # Create a user with random password hash placeholder (not used)
+        user = User(
+            name=payload.name or payload.email.split('@')[0],
+            email=payload.email,
+            password_hash=pwd_context.hash("oauth_placeholder"),
+            avatar=payload.avatar,
+            light_dark_mode="light",
+            privacy_settings={},
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    else:
+        # Update profile fields if changed
+        updated = False
+        if payload.name and user.name != payload.name:
+            user.name = payload.name
+            updated = True
+        if payload.avatar and user.avatar != payload.avatar:
+            user.avatar = payload.avatar
+            updated = True
+        if updated:
+            db.commit()
+            db.refresh(user)
+
+    token = create_access_token({"sub": str(user.id)})
+    return LoginResponse(access_token=token, user=user)
+
 @router.put("/me", response_model=UserResponse)
 def update_user_progress(update_data: UserUpdateRequest, db: Session = Depends(get_db), user_id: int = 1):
     user = db.query(User).filter(User.id == user_id).first()

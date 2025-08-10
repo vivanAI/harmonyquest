@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: harmonyquest-backend
+    env: python
+    plan: free
+    region: oregon
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true
+    envVars:
+      - key: BACKEND_CORS_ORIGINS
+        # Set to your frontend domains, comma-separated. Update after frontend is deployed.
+        value: https://your-frontend.vercel.app
+      # Add your own secrets below (examples):
+      # - key: JWT_SECRET
+      #   sync: false
+      # - key: DATABASE_URL
+      #   sync: false

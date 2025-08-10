@@ -13,7 +13,8 @@ import { Flame, Star, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { BookOpen } from "lucide-react"
 import { useStatsStore } from "@/lib/stats-store"
-import { useAuthStore } from "@/lib/auth-store"
+import { useSession } from "next-auth/react"
+import { useEffect, useRef } from "react"
 
 const learningModules = [
   { title: "Festivals of Faith", slug: "festivals-of-faith", icon: "BookOpen" as const },
@@ -31,14 +32,25 @@ const calculateRank = (xp: number) => {
 
 export default function DashboardPage() {
   const { xp, streak, resetStats, getLessonProgress } = useStatsStore();
-  const { user } = useAuthStore();
+  const { data: session } = useSession();
+  const loadedRef = useRef(false);
+
+  useEffect(() => {
+    // Load progress from backend once when session has backendToken
+    if (!loadedRef.current && session?.backendToken && session?.backendUser?.id) {
+      loadedRef.current = true;
+      useStatsStore.getState().loadUserProgress(session.backendUser.id, session.backendToken).catch((e) => {
+        console.error('Failed to load progress from backend:', e);
+      });
+    }
+  }, [session?.backendToken, session?.backendUser?.id]);
   const userRank = calculateRank(xp);
   
   return (
     <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
       <div className="grid gap-4">
         <h1 className="text-3xl font-bold tracking-tight">
-          Welcome back, {user?.name || 'User'}!
+          Welcome back, {session?.backendUser?.name || session?.user?.name || 'User'}!
         </h1>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
