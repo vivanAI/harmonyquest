@@ -1,8 +1,9 @@
 fastapi
 uvicorn
 sqlalchemy
-pydantic
+pydantic[email]
 passlib[bcrypt]
 python-jose
 cachetools
 python-dotenv 
+requests

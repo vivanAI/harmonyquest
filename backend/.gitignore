@@ -1,0 +1,30 @@
+# Python cache and bytecode
+**/__pycache__/
+*.py[cod]
+*.pyo
+# Virtual environments
+venv/
+.venv/
+# Environment files
+.env
+.env.*
+# Local SQLite databases
+app.db
+*.sqlite3
+# Testing and coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+# Type checker / linters
+.mypy_cache/
+.ruff_cache/
+.pytype/
+# IDE/editor
+.idea/
+.vscode/
+# Logs
+*.log
+uvicorn*.log
+__pycache__/
+.Python

@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE || "http://192.168.18.4:8000";
+const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE || "http://localhost:8000";
 
 // Only Google provider for now
 const providers: NextAuthOptions["providers"] = [];

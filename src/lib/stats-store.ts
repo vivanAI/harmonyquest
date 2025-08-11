@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { getBackendBase } from '@/lib/utils'
 
 interface StatsState {
   xp: number
@@ -82,9 +83,10 @@ export const useStatsStore = create<StatsState>()((set, get) => ({
           })
 
           console.log('Loading user progress for user ID:', userId)
-          
+
+          const BASE = getBackendBase()
           // Load user data from backend
-          const userResponse = await fetch(`http://localhost:8000/users/me`, {
+          const userResponse = await fetch(`${BASE}/users/me`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -96,7 +98,7 @@ export const useStatsStore = create<StatsState>()((set, get) => ({
             console.log('Backend user data:', userData)
             
             // Load completed lessons from backend
-            const lessonsResponse = await fetch(`http://localhost:8000/users/me/lessons`, {
+            const lessonsResponse = await fetch(`${BASE}/users/me/lessons`, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -132,9 +134,9 @@ export const useStatsStore = create<StatsState>()((set, get) => ({
       syncProgressToBackend: async (userId: number, token: string) => {
         try {
           const { xp, streak } = get()
-          
+          const BASE = getBackendBase()
           // Update user XP and streak on backend
-          const response = await fetch(`http://localhost:8000/users/me`, {
+          const response = await fetch(`${BASE}/users/me`, {
             method: 'PUT',
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -158,7 +160,8 @@ export const useStatsStore = create<StatsState>()((set, get) => ({
 
       completeLessonOnBackend: async (lessonSlug: string, xpEarned: number, token: string) => {
         try {
-          const response = await fetch(`http://localhost:8000/users/me/lessons/complete`, {
+          const BASE = getBackendBase()
+          const response = await fetch(`${BASE}/users/me/lessons/complete`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${token}`,

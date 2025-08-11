@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useStatsStore } from "@/lib/stats-store";
 import { useSession } from "next-auth/react";
+import { getBackendBase } from "@/lib/utils"
 
 export default function LessonDetailPage() {
   const { slug } = useParams();
@@ -15,11 +16,24 @@ export default function LessonDetailPage() {
   const { data: session } = useSession();
 
   useEffect(() => {
-    fetch("http://localhost:8000/lessons")
-      .then(res => res.json())
+    const BASE = getBackendBase()
+    fetch(`${BASE}/lessons/slug/${slug}`)
+      .then(res => {
+        console.log('GET lesson by slug status', res.status)
+        return res.json()
+      })
       .then(data => {
-        const found = data.find((l: any) => l.slug === slug);
-        setLesson(found);
+        console.log('GET lesson by slug payload', data)
+        setLesson(data);
+      })
+      .catch(error => {
+        console.error('Error fetching lesson:', error);
+        fetch(`${BASE}/lessons`)
+          .then(res => res.json())
+          .then(data => {
+            const found = data.find((l: any) => l.slug === slug);
+            setLesson(found);
+          });
       });
   }, [slug]);
 

@@ -13,13 +13,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Harmony Quest API", lifespan=lifespan)
 
-# CORS origins: read from env BACKEND_CORS_ORIGINS as comma-separated list
-cors_env = os.environ.get("BACKEND_CORS_ORIGINS", "http://localhost:3000")
-allow_origins = [o.strip() for o in cors_env.split(",") if o.strip()]
-
+# CORS: allow all origins (wide access)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_origins,
+    allow_origin_regex=".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

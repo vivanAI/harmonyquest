@@ -49,6 +49,7 @@ class LessonBase(BaseModel):
     title: str
     topic: str
     type: LessonType
+    slug: str  # Add slug field
     content: Dict[str, Any]
     answer_key: Dict[str, Any]
     xp_reward: int

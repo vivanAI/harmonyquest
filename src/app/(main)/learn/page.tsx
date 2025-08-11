@@ -12,16 +12,27 @@ import { Progress } from "@/components/ui/progress"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useStatsStore } from "@/lib/stats-store"
+import { getBackendBase } from "@/lib/utils"
 
 export default function LearnPage() {
   const [lessons, setLessons] = useState<any[]>([]);
   const { getLessonProgress } = useStatsStore();
   
   useEffect(() => {
-    fetch("http://localhost:8000/lessons")
-      .then(res => res.json())
-      .then(data => setLessons(data))
-      .catch(() => setLessons([]));
+    const BASE = getBackendBase()
+    fetch(`${BASE}/lessons`)
+      .then(res => {
+        console.log('GET /lessons status', res.status)
+        return res.json()
+      })
+      .then((data) => {
+        console.log('GET /lessons payload', data)
+        setLessons(Array.isArray(data) ? data : [])
+      })
+      .catch((err) => {
+        console.error('GET /lessons failed', err)
+        setLessons([])
+      })
   }, []);
   console.log("Lessons loaded from backend:", lessons);
   return (

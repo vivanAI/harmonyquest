@@ -54,6 +54,7 @@ class Lesson(Base):
     title = Column(String, nullable=False)
     topic = Column(String, nullable=False)
     type = Column(Enum(LessonType), nullable=False)
+    slug = Column(String, unique=True, index=True, nullable=False)  # Add slug field
     content = Column(JSON, nullable=False)
     answer_key = Column(JSON, nullable=False)
     xp_reward = Column(Integer, default=10)

@@ -1,10 +1,38 @@
 from app.database import engine
-from app.models.models import Base, User, Lesson, TriviaChallenge
+from app.models.models import Base, User, Lesson, TriviaChallenge, LessonType
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
+from typing import Dict, Any
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def _generate_answer_key(questions: list[Dict[str, Any]]) -> Dict[str, int | None]:
+    answer_key: Dict[str, int | None] = {}
+    for i, question in enumerate(questions):
+        if question.get("type") == "multiple-choice":
+            correct_index = None
+            for j, answer in enumerate(question.get("answers", [])):
+                if answer.get("correct"):
+                    correct_index = j
+                    break
+            answer_key[f"q{i}"] = correct_index
+    return answer_key
+
+
+def _coerce_lesson_type(t: Any) -> LessonType:
+    if isinstance(t, LessonType):
+        return t
+    if isinstance(t, str):
+        # Accept already-correct value or name
+        try:
+            return LessonType(t)
+        except ValueError:
+            return LessonType[t]
+    # Fallback
+    return LessonType.MCQ
+
 
 def seed():
     Base.metadata.create_all(bind=engine)
@@ -616,28 +644,62 @@ def seed():
     ]
 
     for lesson in lessons:
-        if not db.query(Lesson).filter_by(title=lesson["title"]).first():
-            db.add(Lesson(
-                title=lesson["title"],
-                topic=lesson["topic"],
-                type=lesson["type"],
-                content={"questions": lesson["questions"]},
-                answer_key={},
-            xp_reward=10
-            ))
+        # Ensure required fields
+        title = lesson["title"].strip()
+        slug = lesson["slug"].strip()
+        topic = lesson["topic"].strip()
+        lesson_type = _coerce_lesson_type(lesson["type"])
+        questions = lesson.get("questions", [])
+
+        # Generate answer key
+        answer_key = _generate_answer_key(questions)
+
+        # Try find existing by slug, else by title
+        existing = db.query(Lesson).filter(Lesson.slug == slug).first()
+        if not existing:
+            existing = db.query(Lesson).filter(Lesson.title == title).first()
+
+        if existing:
+            # Update in place to guarantee data presence
+            existing.title = title
+            existing.slug = slug
+            existing.topic = topic
+            existing.type = lesson_type
+            existing.content = {"questions": questions}
+            existing.answer_key = answer_key
+            if existing.xp_reward is None or existing.xp_reward <= 0:
+                existing.xp_reward = 10
+        else:
+            db.add(
+                Lesson(
+                    title=title,
+                    topic=topic,
+                    type=lesson_type,
+                    slug=slug,
+                    content={"questions": questions},
+                    answer_key=answer_key,
+                    xp_reward=10,
+                )
+            )
 
     # Seed trivia challenge (unchanged)
     if not db.query(TriviaChallenge).first():
         trivia = TriviaChallenge(
             week_id="2024-W01",
             theme="Cultural Basics",
-            questions=[{"q": "What is Singapore's main language?", "options": ["English", "Mandarin", "Malay", "Tamil"]}],
-            correct_answers=["English"]
+            questions=[
+                {
+                    "q": "What is Singapore's main language?",
+                    "options": ["English", "Mandarin", "Malay", "Tamil"],
+                }
+            ],
+            correct_answers=["English"],
         )
         db.add(trivia)
 
     db.commit()
     db.close()
+
 
 if __name__ == "__main__":
     seed() 

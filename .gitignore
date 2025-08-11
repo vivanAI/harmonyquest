@@ -37,7 +37,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# genkit
 .genkit/*
+
+# env files (frontend)
 .env*
 
 # firebase
@@ -46,10 +49,10 @@ firestore-debug.log
 
 # Python/Backend
 backend/venv/
-.venv/
-__pycache__/
-*.pyc
-.mypy_cache/
-*.db
-.idea/
-.vscode/
+backend/.venv/
+backend/__pycache__/
+backend/**/*.pyc
+backend/.mypy_cache/
+backend/*.db
+backend/.idea/
+backend/.vscode/__pycache__/

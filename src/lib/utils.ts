@@ -23,3 +23,10 @@ export function unslugify(slug: string) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
+
+export const getBackendBase = () => {
+  if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_BACKEND_BASE) {
+    return process.env.NEXT_PUBLIC_BACKEND_BASE
+  }
+  return 'http://localhost:8000'
+}

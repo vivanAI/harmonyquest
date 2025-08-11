@@ -54,12 +54,19 @@ def complete_lesson(lesson_id: int, req: LessonCompleteRequest, db: Session = De
         feedback=feedback
     )
 
+@router.get("/slug/{slug}", response_model=dict)
+def get_lesson_by_slug(slug: str, db: Session = Depends(get_db)):
+    lesson = db.query(Lesson).filter(Lesson.slug == slug).first()
+    if not lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+    return LessonResponse.from_orm(lesson).dict()
+
 @router.get("/", response_model=List[dict])
 def get_lessons(db: Session = Depends(get_db)):
     lessons = db.query(Lesson).all()
     result = []
     for lesson in lessons:
         lesson_data = LessonResponse.from_orm(lesson).dict()
-        lesson_data['slug'] = slugify(lesson['title'] if isinstance(lesson, dict) else lesson.title)
+        # The slug is already in the database, no need to generate it
         result.append(lesson_data)
     return result 
