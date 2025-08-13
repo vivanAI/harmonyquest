@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Question } from '@/lib/quiz-data'
+import { useSession } from 'next-auth/react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -22,7 +23,8 @@ export function QuizClient({ questions }: QuizClientProps) {
   const [showFeedback, setShowFeedback] = useState(false)
   const [correctAnswers, setCorrectAnswers] = useState(0)
   const [isQuizComplete, setIsQuizComplete] = useState(false)
-  const { addXp } = useStatsStore()
+  const { addXp, completeLesson, completeLessonOnBackend } = useStatsStore()
+  const { data: session } = useSession()
 
   if (questions.length === 0) {
     return (
@@ -60,6 +62,15 @@ export function QuizClient({ questions }: QuizClientProps) {
       
       const totalXp = 50 + bonusXp;
       addXp(totalXp);
+      
+      // Mark lesson as completed and sync to backend
+      completeLesson();
+      
+      if (session?.backendToken) {
+        completeLessonOnBackend('quiz-completion', totalXp, session.backendToken).catch((error: any) => {
+          console.error('Failed to complete lesson on backend:', error);
+        });
+      }
       
       setIsQuizComplete(true)
     } else {
@@ -105,7 +116,20 @@ export function QuizClient({ questions }: QuizClientProps) {
 
   return (
     <div className="space-y-6">
-      <Progress value={progress} />
+      {/* Progress Display */}
+      <div className="p-4 border rounded bg-card">
+        <div className="flex justify-between items-center mb-2">
+          <span className="font-semibold">Quiz Progress</span>
+          <span className="text-sm text-muted-foreground">
+            {currentQuestionIndex + 1} of {questions.length}
+          </span>
+        </div>
+        <Progress value={progress} className="mb-2" />
+        <div className="text-xs text-muted-foreground">
+          {Math.round(progress)}% complete
+        </div>
+      </div>
+      
       <Card>
         <CardHeader>
           <CardTitle>Question {currentQuestionIndex + 1}</CardTitle>
@@ -145,12 +169,17 @@ export function QuizClient({ questions }: QuizClientProps) {
             <XCircle className="h-4 w-4" color={cn('text-red-500')} />
           }
           <AlertTitle className="font-bold">
-            {isCorrect ? 'Correct!' : 'Not quite!'}
+            {isCorrect ? 'Correct!' : 'Incorrect'}
           </AlertTitle>
           <AlertDescription>
             <div className="flex items-start gap-2 mt-2">
               <Lightbulb className="h-4 w-4 flex-shrink-0 mt-1" />
-              <p>{currentQuestion.explanation}</p>
+              <p>
+                {isCorrect 
+                  ? (currentQuestion.explanation || 'Great job!').replace(/^Correct!\s*/, '') 
+                  : `The correct answer is: ${currentQuestion.answers.find(a => a.correct)?.text}. ${(currentQuestion.explanation || 'Keep learning!').replace(/^Correct!\s*/, '')}`
+                }
+              </p>
             </div>
           </AlertDescription>
         </Alert>

@@ -14,7 +14,7 @@ import Link from "next/link"
 import { BookOpen } from "lucide-react"
 import { useStatsStore } from "@/lib/stats-store"
 import { useSession } from "next-auth/react"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const learningModules = [
   { title: "Festivals of Faith", slug: "festivals-of-faith", icon: "BookOpen" as const },
@@ -34,6 +34,12 @@ export default function DashboardPage() {
   const { xp, streak, resetStats, getLessonProgress } = useStatsStore();
   const { data: session } = useSession();
   const loadedRef = useRef(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Mark when component is mounted on client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     // Load progress from backend once when session has backendToken
@@ -124,7 +130,8 @@ export default function DashboardPage() {
           <CardContent>
             <div className="grid gap-6">
               {learningModules.map((mod) => {
-                const progress = getLessonProgress(mod.slug);
+                // Only get progress on client side to avoid hydration mismatch
+                const progress = isClient ? getLessonProgress(mod.slug) : 0;
                 return (
                   <div key={mod.title} className="flex items-center gap-4">
                     <div className="p-2 bg-muted rounded-md">

@@ -96,7 +96,7 @@ def seed():
                         {"text": "Birth, enlightenment, and death of the Buddha", "correct": True},
                                     {"text": "Abraham's sacrifice", "correct": False},
                     ],
-                                "explanation": "Correct! Vesak marks the Buddha's birth, enlightenment, and parinirvana. It is observed with deep reflection and compassion. In Singapore, Buddhists visit temples to make offerings and perform dana (acts of charity) like donating to the needy. Some devotees also symbolically release caged birds, representing liberation and compassion."
+                                "explanation": "Vesak marks the Buddha's birth, enlightenment, and parinirvana. It is observed with deep reflection and compassion. In Singapore, Buddhists visit temples to make offerings and perform dana (acts of charity) like donating to the needy. Some devotees also symbolically release caged birds, representing liberation and compassion."
                 },
                 {
                     "type": "multiple-choice",
@@ -107,7 +107,7 @@ def seed():
                                     {"text": "The mourning period of Ashura", "correct": False},
                                     {"text": "The month of Muharram", "correct": False},
                                 ],
-                                "explanation": "Correct! Eid al-Fitr is the festival that marks the end of Ramadan – the month of dawn-to-dusk fasting. After a month of self-restraint, Muslims celebrate Eid al-Fitr with communal prayers, charity (zakât al-Fitr), and feasting."
+                                "explanation": "Eid al-Fitr is the festival that marks the end of Ramadan – the month of dawn-to-dusk fasting. After a month of self-restraint, Muslims celebrate Eid al-Fitr with communal prayers, charity (zakât al-Fitr), and feasting."
                 },
                 {
                     "type": "multiple-choice",
@@ -118,7 +118,7 @@ def seed():
                                     {"text": "A Sikh festival of sword-play", "correct": False},
                                     {"text": "A festival of lights symbolizing the triumph of good over evil", "correct": True},
                                 ],
-                                "explanation": "Correct! Deepavali is the Hindu Festival of Lights, celebrating the victory of light over darkness and good over evil. Homes are decorated with oil lamps (diyas) and rangoli patterns, and people share sweets and gifts. In Singapore, Deepavali is celebrated with dazzling street light-ups in Little India and homes brightly decorated to welcome prosperity."
+                                "explanation": "Deepavali is the Hindu Festival of Lights, celebrating the victory of light over darkness and good over evil. Homes are decorated with oil lamps (diyas) and rangoli patterns, and people share sweets and gifts. In Singapore, Deepavali is celebrated with dazzling street light-ups in Little India and homes brightly decorated to welcome prosperity."
                 },
                 {
                     "type": "multiple-choice",
@@ -129,7 +129,7 @@ def seed():
                                     {"text": "The Buddha's enlightenment", "correct": False},
                                     {"text": "The revelation of the Torah", "correct": False},
                                 ],
-                                "explanation": "Correct! Christmas is the Christian festival commemorating the birth of Jesus Christ. Though Christians are a minority in Singapore, Christmas is widely celebrated: Orchard Road is famous for its festive light displays, caroling events, and families exchange gifts in the Christmas spirit."
+                                "explanation": "Christmas is the Christian festival commemorating the birth of Jesus Christ. Though Christians are a minority in Singapore, Christmas is widely celebrated: Orchard Road is famous for its festive light displays, caroling events, and families exchange gifts in the Christmas spirit."
                 },
                 {
                     "type": "multiple-choice",
@@ -140,7 +140,7 @@ def seed():
                                     {"text": "The Prophet Muhammad's migration to Medina", "correct": False},
                                     {"text": "Moses receiving the Ten Commandments", "correct": False},
                                 ],
-                                "explanation": "Correct! Vaisakhi (celebrated in April) marks the birth of the Khalsa order by Guru Gobind Singh in 1699. It also coincides with spring harvest time. Sikhs observe Vaisakhi with processions, community prayers, and service (langar)."
+                                "explanation": "Vaisakhi (celebrated in April) marks the birth of the Khalsa order by Guru Gobind Singh in 1699. It also coincides with spring harvest time. Sikhs observe Vaisakhi with processions, community prayers, and service (langar)."
                 },
                 {
                     "type": "multiple-choice",
@@ -151,7 +151,7 @@ def seed():
                                     {"text": "A harvest festival for the barley crop", "correct": False},
                                     {"text": "A fast day like Yom Kippur", "correct": False},
                                 ],
-                                "explanation": "Correct! Rosh Hashanah is the Jewish New Year, which tradition holds commemorates the creation of the first humans. It is celebrated with prayer services, blowing the shofar (ram's horn), and festive meals with symbolic foods like apples dipped in honey for a sweet new year."
+                                "explanation": "Rosh Hashanah is the Jewish New Year, which tradition holds commemorates the creation of the first humans. It is celebrated with prayer services, blowing the shofar (ram's horn), and festive meals with symbolic foods like apples dipped in honey for a sweet new year."
                 },
                 {
                     "type": "multiple-choice",
@@ -162,7 +162,7 @@ def seed():
                                     {"text": "A festival commemorating the birth of Bahá'u'lláh", "correct": False},
                                     {"text": "The end of a pilgrimage to Haifa", "correct": False},
                                 ],
-                                "explanation": "Correct! Naw-Rúz is the Bahá'í New Year, occurring on the vernal equinox (around March 21). It follows their 19-day fast and is celebrated with joyous gatherings and prayers."
+                                "explanation": "Naw-Rúz is the Bahá'í New Year, occurring on the vernal equinox (around March 21). It follows their 19-day fast and is celebrated with joyous gatherings and prayers."
                 },
                 {
                     "type": "multiple-choice",
@@ -173,7 +173,7 @@ def seed():
                                     {"text": "Releasing lanterns to honor ancestors", "correct": False},
                                     {"text": "Wearing dragon costumes in parades", "correct": False},
                                 ],
-                                "explanation": "Correct! Thaipusam is a Tamil Hindu festival honoring Lord Murugan. Devotees in Singapore carry elaborately decorated kavadis (often piercing their bodies or carrying milk pots) from Sri Srinivasa Perumal Temple to the Sri Thendayuthapani Temple. It's an act of devotion and thanks."
+                                "explanation": "Thaipusam is a Tamil Hindu festival honoring Lord Murugan. Devotees in Singapore carry elaborately decorated kavadis (often piercing their bodies or carrying milk pots) from Sri Srinivasa Perumal Temple to the Sri Thendayuthapani Temple. It's an act of devotion and thanks."
                 },
                 {
                     "type": "multiple-choice",
@@ -184,7 +184,7 @@ def seed():
                                     {"text": "Holding a morning egg hunt", "correct": False},
                                     {"text": "Gathering to beat drums at sunrise", "correct": False},
                                 ],
-                                "explanation": "Correct! On Vesak Day, Buddhists often visit temples to offer flowers, candles, and incense, and engage in dana (acts of charity) such as donating food, money, or blood. Many Singaporean devotees also observe a vegetarian diet for the day to honor all living beings."
+                                "explanation": "On Vesak Day, Buddhists often visit temples to offer flowers, candles, and incense, and engage in dana (acts of charity) such as donating food, money, or blood. Many Singaporean devotees also observe a vegetarian diet for the day to honor all living beings."
                 },
                 {
                     "type": "multiple-choice",
@@ -195,7 +195,7 @@ def seed():
                                     {"text": "They set off firecrackers in the city center", "correct": False},
                                     {"text": "They fly kites on the beach at sunset", "correct": False},
                                 ],
-                                "explanation": "Correct! Deepavali in Singapore is marked by a \"Deepavali Light-Up\" in Little India, where streets (especially Serangoon Road) are adorned with colorful arches and lights. Homes are illuminated with oil lamps (diyas) and rangoli designs to invite good fortune."
+                                "explanation": "Deepavali in Singapore is marked by a \"Deepavali Light-Up\" in Little India, where streets (especially Serangoon Road) are adorned with colorful arches and lights. Homes are illuminated with oil lamps (diyas) and rangoli designs to invite good fortune."
                             }
                         ]
                     },
@@ -213,7 +213,7 @@ def seed():
                                     {"text": "Lighting candles each evening", "correct": False},
                                     {"text": "Eating only fish for the entire month", "correct": False},
                                 ],
-                                "explanation": "Correct! Fasting from dawn to sunset is obligatory for all adult Muslims during Ramadan. This fast (sawm) is one of the Five Pillars of Islam and is observed as a spiritual discipline. Each day starts with a pre-dawn meal (suhur) and ends with the evening meal (iftar) to break the fast."
+                                "explanation": "Fasting from dawn to sunset is obligatory for all adult Muslims during Ramadan. This fast (sawm) is one of the Five Pillars of Islam and is observed as a spiritual discipline. Each day starts with a pre-dawn meal (suhur) and ends with the evening meal (iftar) to break the fast."
                             },
                             {
                                 "type": "multiple-choice",
@@ -224,7 +224,7 @@ def seed():
                                     {"text": "Joseph's reunion with his family in Egypt", "correct": False},
                                     {"text": "David's defeat of Goliath", "correct": False},
                                 ],
-                                "explanation": "Correct! Eid al-Adha honors the Prophet Abraham's obedience in being willing to sacrifice his son at God's command. In remembrance, Muslims perform animal sacrifices (qurbani) during Eid al-Adha and share the meat with family and the poor."
+                                "explanation": "Eid al-Adha honors the Prophet Abraham's obedience in being willing to sacrifice his son at God's command. In remembrance, Muslims perform animal sacrifices (qurbani) during Eid al-Adha and share the meat with family and the poor."
                             },
                             {
                                 "type": "multiple-choice",
@@ -235,7 +235,7 @@ def seed():
                                     {"text": "The resurrection of Jesus Christ from the dead", "correct": True},
                                     {"text": "The creation of the world", "correct": False},
                                 ],
-                                "explanation": "Correct! Easter is the festival celebrating Jesus Christ's resurrection on the third day after his crucifixion. It is the culmination of Lent (a 40-day fast) and is observed with church services, festive meals, and traditions like Easter eggs symbolizing new life."
+                                "explanation": "Easter is the festival celebrating Jesus Christ's resurrection on the third day after his crucifixion. It is the culmination of Lent (a 40-day fast) and is observed with church services, festive meals, and traditions like Easter eggs symbolizing new life."
                             },
                             {
                                 "type": "multiple-choice",
@@ -246,7 +246,7 @@ def seed():
                                     {"text": "The day Lord Vishnu incarnated as Krishna", "correct": False},
                                     {"text": "The first sermon of Guru Nanak", "correct": False},
                                 ],
-                                "explanation": "Correct! Mahavir Jayanti celebrates the birth of Lord Mahavira, the last (24th) Tirthankara of Jainism. It is one of the most important Jain holidays, marked by temple visits, processions, and storytelling about Mahavira's life and teachings."
+                                "explanation": "Mahavir Jayanti celebrates the birth of Lord Mahavira, the last (24th) Tirthankara of Jainism. It is one of the most important Jain holidays, marked by temple visits, processions, and storytelling about Mahavira's life and teachings."
                             },
                             {
                                 "type": "multiple-choice",
@@ -257,7 +257,7 @@ def seed():
                                     {"text": "A sweet rice dish served at sunset", "correct": False},
                                     {"text": "Name of the Eid prayer in mosques", "correct": False},
                                 ],
-                                "explanation": "Correct! Duit raya (literally \"Raya money\") are green packets containing money that Malay/Muslim Singaporeans give to children and elders during Hari Raya Puasa. It is similar to the Chinese red packet tradition, meant as a token of blessings and goodwill."
+                                "explanation": "Duit raya (literally \"Raya money\") are green packets containing money that Malay/Muslim Singaporeans give to children and elders during Hari Raya Puasa. It is similar to the Chinese red packet tradition, meant as a token of blessings and goodwill."
                             },
                             {
                                 "type": "multiple-choice",
@@ -268,7 +268,7 @@ def seed():
                                     {"text": "Eid al-Adha and Good Friday", "correct": False},
                                     {"text": "Ramadan and Passover", "correct": False},
                                 ],
-                                "explanation": "Correct! Both Deepavali (Diwali) in Hinduism and Hanukkah in Judaism are popularly known as Festivals of Lights. Diwali uses oil lamps to symbolize light over darkness, and Hanukkah uses a menorah to celebrate a miracle of light."
+                                "explanation": "Both Deepavali (Diwali) in Hinduism and Hanukkah in Judaism are popularly known as Festivals of Lights. Diwali uses oil lamps to symbolize light over darkness, and Hanukkah uses a menorah to celebrate a miracle of light."
                             },
                             {
                                 "type": "multiple-choice",
@@ -279,7 +279,7 @@ def seed():
                                     {"text": "\"Festival of Freedom\" and \"Festival of Sharing\"", "correct": False},
                                     {"text": "\"Festival of New Light\" and \"Festival of Pilgrimage\"", "correct": False},
                                 ],
-                                "explanation": "Correct! Eid al-Fitr literally means \"Festival of Breaking the Fast,\" referring to the end of Ramadan. Eid al-Adha means \"Festival of Sacrifice,\" commemorating Abraham's sacrifice."
+                                "explanation": "Eid al-Fitr literally means \"Festival of Breaking the Fast,\" referring to the end of Ramadan. Eid al-Adha means \"Festival of Sacrifice,\" commemorating Abraham's sacrifice."
                             },
                             {
                                 "type": "multiple-choice",
@@ -290,7 +290,7 @@ def seed():
                                     {"text": "Seeking personal recognition from the community", "correct": False},
                                     {"text": "Honoring political leaders", "correct": False},
                                 ],
-                                "explanation": "Correct! Both zakât al-Fitr and dana reflect the value of compassion and community support. Muslims give zakât (alms) on Eid to help those in need, and Buddhists perform dana as acts of kindness on Vesak. In both cases, charity is a way of caring for others and embodying religious compassion."
+                                "explanation": "Both zakât al-Fitr and dana reflect the value of compassion and community support. Muslims give zakât (alms) on Eid to help those in need, and Buddhists perform dana as acts of kindness on Vesak. In both cases, charity is a way of caring for others and embodying religious compassion."
                             },
                             {
                                 "type": "multiple-choice",
@@ -301,7 +301,7 @@ def seed():
                                     {"text": "Always fall on the same date every year", "correct": False},
                                     {"text": "Are month-long festivals", "correct": False},
                                 ],
-                                "explanation": "Correct! Eid al-Fitr marks the end of Ramadan and Easter marks the end of Lent. Both festivals celebrate the conclusion of a period of fasting or penance, and are observed with communal prayers, feasting, and joy."
+                                "explanation": "Eid al-Fitr marks the end of Ramadan and Easter marks the end of Lent. Both festivals celebrate the conclusion of a period of fasting or penance, and are observed with communal prayers, feasting, and joy."
                             },
                             {
                                 "type": "multiple-choice",
@@ -312,7 +312,7 @@ def seed():
                                     {"text": "Fasting all day with no food", "correct": False},
                                     {"text": "Wearing white at church", "correct": False},
                                 ],
-                                "explanation": "Correct! Deepavali in Singapore is marked by a spectacular street light-up in Little India. The area is lined with colorful arches and dazzling lights. Families also decorate homes with oil lamps (diyas) and rangoli patterns to welcome prosperity."
+                                "explanation": "Deepavali in Singapore is marked by a spectacular street light-up in Little India. The area is lined with colorful arches and dazzling lights. Families also decorate homes with oil lamps (diyas) and rangoli patterns to welcome prosperity."
                             }
                         ]
                     },
@@ -330,7 +330,7 @@ def seed():
                                     {"text": "Agni, the fire god", "correct": False},
                                     {"text": "Ganesh, the elephant deity", "correct": False},
                                 ],
-                                "explanation": "Correct! Thai Pongal is dedicated to Surya, the solar deity. The festival thanks the Sun for a good harvest and marks the start of the Sun's northward journey. Families cook sweet rice (pongal) and decorate cattle as part of the celebration."
+                                "explanation": "Thai Pongal is dedicated to Surya, the solar deity. The festival thanks the Sun for a good harvest and marks the start of the Sun's northward journey. Families cook sweet rice (pongal) and decorate cattle as part of the celebration."
                             },
                             {
                                 "type": "multiple-choice",
@@ -341,7 +341,7 @@ def seed():
                                     {"text": "Guru Nanak's passing into the next life", "correct": False},
                                     {"text": "The formation of the Akal Takht", "correct": False},
                                 ],
-                                "explanation": "Correct! Gurpurab (also known as Guru Nanak Jayanti) commemorates the birth anniversary of Guru Nanak Dev Ji, the first Sikh Guru and founder of Sikhism. Sikhs celebrate with prayer, hymn singing (kirtan), and a community meal (langar)."
+                                "explanation": "Gurpurab (also known as Guru Nanak Jayanti) commemorates the birth anniversary of Guru Nanak Dev Ji, the first Sikh Guru and founder of Sikhism. Sikhs celebrate with prayer, hymn singing (kirtan), and a community meal (langar)."
                             },
                             {
                                 "type": "multiple-choice",
@@ -352,7 +352,7 @@ def seed():
                                     {"text": "The completion of the first Baha'i House of Worship", "correct": False},
                                     {"text": "A pilgrimage to Jerusalem", "correct": False},
                                 ],
-                                "explanation": "Correct! Ridván commemorates when Bahá'u'lláh first declared his mission in a garden outside Baghdad in April 1863, effectively founding the Baha'i Faith. This 12-day festival is the holiest period in the Baha'i calendar, celebrated with prayers and community gatherings."
+                                "explanation": "Ridván commemorates when Bahá'u'lláh first declared his mission in a garden outside Baghdad in April 1863, effectively founding the Baha'i Faith. This 12-day festival is the holiest period in the Baha'i calendar, celebrated with prayers and community gatherings."
                             },
                             {
                                 "type": "multiple-choice",
@@ -363,7 +363,7 @@ def seed():
                                     {"text": "The birth of Lord Rama", "correct": False},
                                     {"text": "The Buddha's attainment of enlightenment", "correct": False},
                                 ],
-                                "explanation": "Correct! Holi commemorates the legendary victory of Lord Krishna (and the burning of the demoness Holika) and the arrival of spring. People celebrate by throwing colored powders, singing, and dancing. Although not as common in Singapore, it is celebrated by Hindu communities worldwide with joy and color."
+                                "explanation": "Holi commemorates the legendary victory of Lord Krishna (and the burning of the demoness Holika) and the arrival of spring. People celebrate by throwing colored powders, singing, and dancing. Although not as common in Singapore, it is celebrated by Hindu communities worldwide with joy and color."
                             },
                             {
                                 "type": "multiple-choice",
@@ -374,7 +374,7 @@ def seed():
                                     {"text": "A symbolic act with no actual animal involved", "correct": False},
                                     {"text": "A regional food festival involving spices", "correct": False},
                                 ],
-                                "explanation": "Correct! The qurbani is the ritual sacrifice of a livestock animal at Eid al-Adha, remembering Abraham's obedience. The meat is traditionally split three ways: one part for the family, one for relatives/friends, and one for the poor, emphasizing charity and gratitude."
+                                "explanation": "The qurbani is the ritual sacrifice of a livestock animal at Eid al-Adha, remembering Abraham's obedience. The meat is traditionally split three ways: one part for the family, one for relatives/friends, and one for the poor, emphasizing charity and gratitude."
                             },
                             {
                                 "type": "multiple-choice",
@@ -385,7 +385,7 @@ def seed():
                                     {"text": "Vesak Day and Diwali", "correct": True},
                                     {"text": "Easter and Rosh Hashanah", "correct": False},
                                 ],
-                                "explanation": "Correct! Both Vesak Day and Diwali involve lighting. On Vesak Day, Buddhists light lanterns and candles at temples to symbolize the Buddha's enlightenment. Diwali (Deepavali) is known as the Festival of Lights, where households light oil lamps and candles to symbolize light overcoming darkness."
+                                "explanation": "Both Vesak Day and Diwali involve lighting. On Vesak Day, Buddhists light lanterns and candles at temples to symbolize the Buddha's enlightenment. Diwali (Deepavali) is known as the Festival of Lights, where households light oil lamps and candles to symbolize light overcoming darkness."
                             },
                             {
                                 "type": "multiple-choice",
@@ -396,7 +396,7 @@ def seed():
                                     {"text": "Ramadan", "correct": False},
                                     {"text": "Hanukkah", "correct": False},
                                 ],
-                                "explanation": "Correct! Diwali is observed by Hindus and Sikhs (and Jains) around the same time in autumn (usually Oct/Nov). In Sikhism, Diwali coincides with Bandi Chhor Divas, when Guru Hargobind was released from prison. For Hindus, it celebrates good over evil. Both communities light lamps and celebrate together."
+                                "explanation": "Diwali is observed by Hindus and Sikhs (and Jains) around the same time in autumn (usually Oct/Nov). In Sikhism, Diwali coincides with Bandi Chhor Divas, when Guru Hargobind was released from prison. For Hindus, it celebrates good over evil. Both communities light lamps and celebrate together."
                             },
                             {
                                 "type": "multiple-choice",
@@ -407,7 +407,7 @@ def seed():
                                     {"text": "Joyeux Noël", "correct": False},
                                     {"text": "Happy Diwali", "correct": False},
                                 ],
-                                "explanation": "Correct! In Malay-speaking communities (including many Muslims in Singapore), \"Selamat Hari Raya\" is a common greeting during Eid al-Fitr (Hari Raya Puasa). It means \"Happy Celebration Day.\" Other greetings include Salam Ramadan for the fasting month."
+                                "explanation": "In Malay-speaking communities (including many Muslims in Singapore), \"Selamat Hari Raya\" is a common greeting during Eid al-Fitr (Hari Raya Puasa). It means \"Happy Celebration Day.\" Other greetings include Salam Ramadan for the fasting month."
                             },
                             {
                                 "type": "multiple-choice",
@@ -418,7 +418,7 @@ def seed():
                                     {"text": "Fasting from food and drink for three days", "correct": False},
                                     {"text": "Dragon and lion dances", "correct": False},
                                 ],
-                                "explanation": "Correct! Christmas is widely celebrated with church services, nativity scenes and decorations on December 25. Good Friday, two days before, is observed by Christians with solemn prayers, scripture readings, and meditations on Jesus' crucifixion."
+                                "explanation": "Christmas is widely celebrated with church services, nativity scenes and decorations on December 25. Good Friday, two days before, is observed by Christians with solemn prayers, scripture readings, and meditations on Jesus' crucifixion."
                             },
                             {
                                 "type": "multiple-choice",
@@ -429,7 +429,7 @@ def seed():
                                     {"text": "Deepavali only", "correct": False},
                                     {"text": "Vesak Day only", "correct": False},
                                 ],
-                                "explanation": "Correct! During Ramadan, Muslims have the iftar meal to break the fast each night. In Christianity, although not a fast-breaking, Easter Vigil often includes a special meal after midnight mass. The most direct answer is Ramadan's iftar as a post-sunset feast."
+                                "explanation": "During Ramadan, Muslims have the iftar meal to break the fast each night. In Christianity, although not a fast-breaking, Easter Vigil often includes a special meal after midnight mass. The most direct answer is Ramadan's iftar as a post-sunset feast."
                             }
                         ]
                     }
@@ -462,7 +462,7 @@ def seed():
                                     {"text": "The cause and end of suffering", "correct": True},
                                     {"text": "The creation of the world", "correct": False},
                                 ],
-                                "explanation": "Correct! The Four Noble Truths explain that life involves suffering, its cause is craving, it can end, and the Eightfold Path leads to that end."
+                                "explanation": "The Four Noble Truths explain that life involves suffering, its cause is craving, it can end, and the Eightfold Path leads to that end."
                 },
                 {
                     "type": "multiple-choice",
@@ -473,7 +473,7 @@ def seed():
                                     {"text": "Jesus, Mary, and Joseph", "correct": False},
                                     {"text": "The Old, New, and Future Testaments", "correct": False},
                                 ],
-                                "explanation": "Correct! The Trinity is the belief that God exists as Father, Son, and Holy Spirit — three in one."
+                                "explanation": "The Trinity is the belief that God exists as Father, Son, and Holy Spirit — three in one."
                 },
                 {
                     "type": "multiple-choice",
@@ -484,7 +484,7 @@ def seed():
                                     {"text": "Iman", "correct": False},
                                     {"text": "Tawhid", "correct": True},
                                 ],
-                                "explanation": "Correct! Tawhid is the belief in the oneness of God, central to Islam."
+                                "explanation": "Tawhid is the belief in the oneness of God, central to Islam. Jihad refers to struggle or striving, not monotheism."
                 },
                 {
                     "type": "multiple-choice",
@@ -495,7 +495,7 @@ def seed():
                                     {"text": "A holy river", "correct": False},
                                     {"text": "A seasonal festival", "correct": False},
                                 ],
-                                "explanation": "Correct! Dharma is one's duty and the right way of living according to moral law."
+                                "explanation": "Dharma is one's duty and the right way of living according to moral law."
                 },
                 {
                     "type": "multiple-choice",
@@ -506,7 +506,7 @@ def seed():
                                     {"text": "Reading the Guru Granth Sahib", "correct": False},
                                     {"text": "Offering food to the poor during Vaisakhi only", "correct": False},
                                 ],
-                                "explanation": "Correct! Seva is selfless service done without expecting reward."
+                                "explanation": "Seva is selfless service done without expecting reward."
                 },
                 {
                     "type": "multiple-choice",
@@ -517,7 +517,7 @@ def seed():
                                     {"text": "The first ten chapters of the Torah", "correct": False},
                                     {"text": "Blessings for the Sabbath", "correct": False},
                                 ],
-                                "explanation": "Correct! The Ten Commandments are moral laws given to Moses on Mount Sinai."
+                                "explanation": "The Ten Commandments are moral laws given to Moses on Mount Sinai."
                 },
                 {
                     "type": "multiple-choice",
@@ -528,7 +528,7 @@ def seed():
                                     {"text": "Worshiping many gods", "correct": False},
                                     {"text": "Always meditating indoors", "correct": False},
                                 ],
-                                "explanation": "Correct! Taoism teaches living simply and in balance with nature, the Tao."
+                                "explanation": "Taoism teaches living simply and in balance with nature, the Tao."
                 },
                 {
                     "type": "multiple-choice",
@@ -539,7 +539,7 @@ def seed():
                                     {"text": "All holidays should be the same", "correct": False},
                                     {"text": "All people are equal regardless of race or religion", "correct": True},
                                 ],
-                                "explanation": "Correct! The Bahá'í Faith teaches equality and unity of all people."
+                                "explanation": "The Bahá'í Faith teaches equality and unity of all people."
                 },
                 {
                     "type": "multiple-choice",
@@ -550,7 +550,7 @@ def seed():
                                     {"text": "Eating only fruits", "correct": False},
                                     {"text": "Helping in the temple kitchen", "correct": False},
                                 ],
-                                "explanation": "Correct! Ahimsa is the principle of non-violence in thought, word, and action."
+                                "explanation": "Ahimsa is the principle of non-violence in thought, word, and action."
                 },
                 {
                     "type": "multiple-choice",
@@ -561,7 +561,7 @@ def seed():
                                     {"text": "Mandatory temple visits", "correct": False},
                                     {"text": "Praying in all languages daily", "correct": False},
                                 ],
-                                "explanation": "Correct! The Act helps prevent religious conflict and promotes respect."
+                                "explanation": "The Act helps prevent religious conflict and promotes respect."
                             }
                         ]
                     },
@@ -579,7 +579,7 @@ def seed():
                                     {"text": "Wearing white clothes only", "correct": False},
                                     {"text": "Praying in silence", "correct": False},
                                 ],
-                                "explanation": "Correct! Many Jain monks sweep the ground to avoid harming insects."
+                                "explanation": "Many Jain monks sweep the ground to avoid harming insects."
                             },
                             {
                                 "type": "multiple-choice",
@@ -590,7 +590,7 @@ def seed():
                                     {"text": "Krishna", "correct": False},
                                     {"text": "Confucius", "correct": False},
                                 ],
-                                "explanation": "Correct! Abraham is an important figure in both Christianity and Islam."
+                                "explanation": "Abraham is an important figure in both Christianity and Islam."
                             },
                             {
                                 "type": "multiple-choice",
@@ -601,7 +601,7 @@ def seed():
                                     {"text": "Wu wei", "correct": False},
                                     {"text": "Sabbath", "correct": False},
                                 ],
-                                "explanation": "Correct! Moksha and Nirvana both mean liberation from the cycle of rebirth."
+                                "explanation": "Moksha and Nirvana both mean liberation from the cycle of rebirth."
                             },
                             {
                                 "type": "multiple-choice",
@@ -612,7 +612,7 @@ def seed():
                                     {"text": "Everyone sits together to eat, regardless of status", "correct": True},
                                     {"text": "Guests must pay for meals", "correct": False},
                                 ],
-                                "explanation": "Correct! The langar is a free kitchen open to all, showing equality."
+                                "explanation": "The langar is a free kitchen open to all, showing equality."
                             },
                             {
                                 "type": "multiple-choice",
@@ -623,7 +623,7 @@ def seed():
                                     {"text": "Keeping kosher", "correct": False},
                                     {"text": "Attending the synagogue weekly", "correct": False},
                                 ],
-                                "explanation": "Correct! It's about making the world better through moral action."
+                                "explanation": "It's about making the world better through moral action."
                             },
                             {
                                 "type": "multiple-choice",
@@ -634,7 +634,7 @@ def seed():
                                     {"text": "Fasting at set times", "correct": False},
                                     {"text": "Building temples in mountains only", "correct": False},
                                 ],
-                                "explanation": "Correct! Yin and yang represent balance and harmony in all things."
+                                "explanation": "Yin and yang represent balance and harmony in all things."
                             },
                             {
                                 "type": "multiple-choice",
@@ -645,7 +645,7 @@ def seed():
                                     {"text": "Fasting is the greatest act", "correct": False},
                                     {"text": "All people must speak Arabic", "correct": False},
                                 ],
-                                "explanation": "Correct! The Shahada is the Islamic declaration of faith."
+                                "explanation": "The Shahada is the Islamic declaration of faith."
                             },
                             {
                                 "type": "multiple-choice",
@@ -656,7 +656,7 @@ def seed():
                                     {"text": "All people are reincarnated", "correct": False},
                                     {"text": "Only monks can reach enlightenment", "correct": False},
                                 ],
-                                "explanation": "Correct! Anatta is the teaching that there's no unchanging self or soul."
+                                "explanation": "Anatta is the teaching that there's no unchanging self or soul."
                             },
                             {
                                 "type": "multiple-choice",
@@ -667,7 +667,7 @@ def seed():
                                     {"text": "People should seek truth for themselves, not just follow tradition", "correct": True},
                                     {"text": "All beliefs are equally correct without study", "correct": False},
                                 ],
-                                "explanation": "Correct! It encourages each person to study and decide their beliefs."
+                                "explanation": "It encourages each person to study and decide their beliefs."
                             },
                             {
                                 "type": "multiple-choice",
@@ -678,7 +678,7 @@ def seed():
                                     {"text": "They are social events for food only", "correct": False},
                                     {"text": "They replace all religious festivals", "correct": False},
                                 ],
-                                "explanation": "Correct! Such dialogues build understanding and respect between communities."
+                                "explanation": "Such dialogues build understanding and respect between communities."
                             }
                         ]
                     },
@@ -696,7 +696,7 @@ def seed():
                                     {"text": "A religious festival", "correct": False},
                                     {"text": "A sacred text", "correct": False},
                                 ],
-                                "explanation": "Correct! Karma refers to the law of cause and effect - our actions create consequences."
+                                "explanation": "Karma refers to the law of cause and effect - our actions create consequences."
                             },
                             {
                                 "type": "multiple-choice",
@@ -707,7 +707,7 @@ def seed():
                                     {"text": "A religious law", "correct": False},
                                     {"text": "A church building", "correct": False},
                                 ],
-                                "explanation": "Correct! Grace is God's unmerited favor and love given freely to humanity."
+                                "explanation": "Grace is God's unmerited favor and love given freely to humanity."
                             },
                             {
                                 "type": "multiple-choice",
@@ -718,7 +718,7 @@ def seed():
                                     {"text": "Core practices of the faith", "correct": True},
                                     {"text": "Five holy cities", "correct": False},
                                 ],
-                                "explanation": "Correct! The Five Pillars are the fundamental acts of worship in Islam."
+                                "explanation": "The Five Pillars are the fundamental acts of worship in Islam."
                             },
                             {
                                 "type": "multiple-choice",
@@ -729,7 +729,7 @@ def seed():
                                     {"text": "A religious holiday", "correct": False},
                                     {"text": "A sacred text", "correct": False},
                                 ],
-                                "explanation": "Correct! Tzedakah combines charity and justice and righteousness."
+                                "explanation": "Tzedakah combines charity and justice and righteousness."
                             },
                             {
                                 "type": "multiple-choice",
@@ -740,7 +740,7 @@ def seed():
                                     {"text": "A sacred text", "correct": False},
                                     {"text": "Non-violence and respect for all life", "correct": True},
                                 ],
-                                "explanation": "Correct! Ahimsa is the principle of non-violence toward all living beings."
+                                "explanation": "Ahimsa is the principle of non-violence toward all living beings."
                             },
                             {
                                 "type": "multiple-choice",
@@ -751,7 +751,7 @@ def seed():
                                     {"text": "The community of believers", "correct": True},
                                     {"text": "A holy place", "correct": False},
                                 ],
-                                "explanation": "Correct! Sangat refers to the community of Sikhs who gather together."
+                                "explanation": "Sangat refers to the community of Sikhs who gather together."
                             },
                             {
                                 "type": "multiple-choice",
@@ -762,7 +762,7 @@ def seed():
                                     {"text": "A religious law", "correct": False},
                                     {"text": "A sacred text", "correct": False},
                                 ],
-                                "explanation": "Correct! Wu wei means 'non-action' or acting in harmony with nature."
+                                "explanation": "Wu wei means 'non-action' or acting in harmony with nature."
                             },
                             {
                                 "type": "multiple-choice",
@@ -773,7 +773,7 @@ def seed():
                                     {"text": "A religious law", "correct": False},
                                     {"text": "A sacred text", "correct": False},
                                 ],
-                                "explanation": "Correct! Progressive revelation means God's guidance is revealed progressively through different messengers."
+                                "explanation": "Progressive revelation means God's guidance is revealed progressively through different messengers."
                             },
                             {
                                 "type": "multiple-choice",
@@ -784,7 +784,7 @@ def seed():
                                     {"text": "A sacred text", "correct": False},
                                     {"text": "Righteous duty and moral law", "correct": True},
                                 ],
-                                "explanation": "Correct! Dharma refers to one's duty and the right way of living."
+                                "explanation": "Dharma refers to one's duty and the right way of living."
                             },
                             {
                                 "type": "multiple-choice",
@@ -795,7 +795,7 @@ def seed():
                                     {"text": "It prevents religious conflict and promotes respect", "correct": True},
                                     {"text": "It requires religious conversion", "correct": False},
                                 ],
-                                "explanation": "Correct! The Act helps maintain peace and harmony between different religious communities."
+                                "explanation": "The Act helps maintain peace and harmony between different religious communities."
                             }
                         ]
                     }

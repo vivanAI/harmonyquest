@@ -14,8 +14,89 @@ export default function LessonDetailPage() {
   const [showResults, setShowResults] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [lessonCompleted, setLessonCompleted] = useState(false);
-  const { addXp, completeLesson, completeLessonOnBackend } = useStatsStore();
+  const [completedParts, setCompletedParts] = useState<Set<number>>(new Set());
+  const [isClient, setIsClient] = useState(false);
+  const { addXp, updateLessonProgress, completeLessonOnBackend, getLessonProgress } = useStatsStore();
   const { data: session } = useSession();
+
+  // Mark when component is mounted on client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Load saved progress from store when lesson loads (client-side only)
+  useEffect(() => {
+    // Only run on client side to avoid hydration mismatch
+    if (typeof window === 'undefined') return;
+    
+    if (lesson) {
+      const savedProgress = getLessonProgress(lesson.slug);
+      console.log('Loading saved progress for lesson:', lesson.slug, 'Progress:', savedProgress);
+      
+      if (savedProgress > 0) {
+        // Calculate which parts are completed based on saved progress
+        const hasParts = lesson.content?.parts && Array.isArray(lesson.content.parts);
+        const totalParts = hasParts ? lesson.content.parts.length : 1;
+        
+        if (totalParts > 1) {
+          const completedPartsCount = Math.round((savedProgress / 100) * totalParts);
+          const newCompletedParts = new Set<number>();
+          
+          // Mark completed parts
+          for (let i = 0; i < completedPartsCount; i++) {
+            newCompletedParts.add(i);
+          }
+          
+          setCompletedParts(newCompletedParts);
+          console.log('Restored completed parts:', Array.from(newCompletedParts));
+          
+          // Set current part to the next incomplete part
+          const nextPart = Math.min(completedPartsCount, totalParts - 1);
+          setCurrentPart(nextPart);
+          
+          // For now, we'll simulate completed answers for completed parts
+          // In a full implementation, you'd want to store/restore actual answers
+          const simulatedAnswers: {[key: string]: number} = {};
+          for (let partIdx = 0; partIdx < completedPartsCount; partIdx++) {
+            const part = lesson.content.parts[partIdx];
+            if (part.questions) {
+              part.questions.forEach((q: any, questionIdx: number) => {
+                const answerKey = `part${partIdx}-q${questionIdx}`;
+                // Simulate correct answers for completed parts
+                const correctAnswerIndex = q.answers.findIndex((a: any) => a.correct);
+                simulatedAnswers[answerKey] = correctAnswerIndex >= 0 ? correctAnswerIndex : 0;
+              });
+            }
+          }
+          
+          setAnswers(simulatedAnswers);
+          console.log('Restored simulated answers for completed parts');
+        }
+      }
+    }
+  }, [lesson, getLessonProgress]);
+
+  // Determine which part the user should start with
+  useEffect(() => {
+    if (lesson && lesson.content?.parts && Array.isArray(lesson.content.parts)) {
+      const totalParts = lesson.content.parts.length;
+      if (totalParts > 1) {
+        // Find the first incomplete part
+        let firstIncompletePart = 0;
+        for (let i = 0; i < totalParts; i++) {
+          if (!completedParts.has(i)) {
+            firstIncompletePart = i;
+            break;
+          }
+        }
+        // If all parts are completed, start with the last part
+        if (firstIncompletePart === 0 && completedParts.size === totalParts) {
+          firstIncompletePart = totalParts - 1;
+        }
+        setCurrentPart(firstIncompletePart);
+      }
+    }
+  }, [lesson, completedParts]);
 
   useEffect(() => {
     const BASE = getBackendBase()
@@ -39,7 +120,7 @@ export default function LessonDetailPage() {
       });
   }, [slug]);
 
-  if (!lesson) return <div>Loading...</div>;
+  if (!lesson || !isClient) return <div>Loading...</div>;
 
   // Handle both old and new data structures
   const hasParts = lesson.content?.parts && Array.isArray(lesson.content.parts);
@@ -49,7 +130,6 @@ export default function LessonDetailPage() {
   // Calculate overall progress across all parts
   let totalQuestions = 0;
   let completedQuestions = 0;
-  let completedParts = 0;
   
   parts.forEach((part: any, partIdx: number) => {
     part.questions.forEach((q: any, questionIdx: number) => {
@@ -59,21 +139,21 @@ export default function LessonDetailPage() {
         completedQuestions++;
       }
     });
-    
-    // Check if part is completed
-    const partQuestions = part.questions.length;
-    let partCompleted = true;
-    for (let i = 0; i < partQuestions; i++) {
-      const answerKey = `part${partIdx}-q${i}`;
-      if (answers[answerKey] === undefined) {
-        partCompleted = false;
-        break;
-      }
-    }
-    if (partCompleted) completedParts++;
   });
+  
+  // Use the state-based completedParts for more accurate tracking
+  const completedPartsCount = completedParts.size;
 
   const overallProgress = totalQuestions > 0 ? (completedQuestions / totalQuestions) * 100 : 0;
+  
+  console.log('Progress calculation:', {
+    totalQuestions,
+    completedQuestions,
+    completedParts,
+    overallProgress,
+    answers: Object.keys(answers),
+    lessonSlug: lesson.slug
+  });
 
   // If lesson is completed, show completion screen
   if (lessonCompleted) {
@@ -215,8 +295,15 @@ export default function LessonDetailPage() {
                   });
                   
                   const xpEarned = correctCount * 10;
+                  console.log('Lesson completed! XP earned:', xpEarned, 'Lesson slug:', lesson.slug);
+                  console.log('Answers submitted:', answers);
+                  console.log('Total questions:', totalQuestions);
+                  console.log('Correct answers:', correctCount);
+                  
+                  console.log('About to call addXp with:', xpEarned);
+                  console.log('About to call updateLessonProgress with:', lesson.slug);
+                  updateLessonProgress(lesson.slug, 100); // Mark as fully completed
                   addXp(xpEarned);
-                  completeLesson(lesson.slug);
                   
                   if (session?.backendToken) {
                     completeLessonOnBackend(lesson.slug, xpEarned, session.backendToken).catch((error: any) => {
@@ -224,7 +311,11 @@ export default function LessonDetailPage() {
                     });
                   }
                   
-                  setLessonCompleted(true);
+                  // Force a re-render to update progress
+                  setTimeout(() => {
+                    console.log('Setting lesson completed to true');
+                    setLessonCompleted(true);
+                  }, 100);
                 }}
               >
                 Complete Lesson
@@ -255,7 +346,46 @@ export default function LessonDetailPage() {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       // Part completed
-      setCurrentQuestion(questions.length); // This will trigger the part completion screen
+      const currentPartData = parts[currentPart];
+      const partQuestions = currentPartData.questions;
+      let correctCount = 0;
+      
+      // Count correct answers for this part
+      partQuestions.forEach((q: any, questionIdx: number) => {
+        const answerKey = `part${currentPart}-q${questionIdx}`;
+        const selected = answers[answerKey];
+        if (selected !== undefined && q.answers[selected]?.correct) {
+          correctCount++;
+        }
+      });
+      
+      // Award XP for completing this part
+      const partXp = Math.round((correctCount / partQuestions.length) * 50); // 50 XP max per part
+      console.log(`Part ${currentPart + 1} completed! XP earned:`, partXp);
+      
+      // Mark part as completed and award XP
+      if (!completedParts.has(currentPart)) {
+        setCompletedParts(prev => new Set([...prev, currentPart]));
+        
+        // Calculate progress percentage for this lesson
+        const totalParts = parts.length;
+        const completedPartsCount = completedParts.size + 1; // +1 for current part
+        const progressPercentage = Math.round((completedPartsCount / totalParts) * 100);
+        
+        // Update lesson progress
+        updateLessonProgress(lesson.slug, progressPercentage);
+        addXp(partXp);
+      }
+      
+      // Auto-advance to next part if available
+      if (currentPart < totalParts - 1) {
+        setCurrentPart(currentPart + 1);
+        setCurrentQuestion(0);
+        setShowFeedback(false);
+      } else {
+        // All parts completed, show lesson completion
+        setCurrentQuestion(questions.length);
+      }
     }
   };
 
@@ -275,7 +405,7 @@ export default function LessonDetailPage() {
           <div className="bg-blue-600 h-3 rounded-full transition-all duration-500" style={{ width: `${overallProgress}%` }}></div>
         </div>
         <div className="text-xs text-muted-foreground">
-          {completedParts} of {totalParts} parts completed
+          {completedPartsCount} of {totalParts} parts completed
         </div>
       </div>
 
@@ -283,6 +413,28 @@ export default function LessonDetailPage() {
       <div className="mb-4 p-3 border rounded bg-card">
         <div className="text-sm text-muted-foreground mb-2">
           Part {currentPart + 1} of {totalParts}: {currentPartData.title}
+          {completedParts.has(currentPart) && (
+            <span className="ml-2 text-green-600 font-semibold">✓ Completed</span>
+          )}
+        </div>
+        
+        {/* Part Status Overview */}
+        <div className="flex gap-2 mb-3">
+          {Array.from({ length: totalParts }, (_, i) => (
+            <div
+              key={i}
+              className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                completedParts.has(i)
+                  ? 'bg-green-500 text-white'
+                  : i === currentPart
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-300 text-gray-600'
+              }`}
+              title={`Part ${i + 1}: ${completedParts.has(i) ? 'Completed' : i === currentPart ? 'Current' : 'Locked'}`}
+            >
+              {completedParts.has(i) ? '✓' : i + 1}
+            </div>
+          ))}
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div className="bg-green-600 h-2 rounded-full transition-all duration-300" 
@@ -291,6 +443,13 @@ export default function LessonDetailPage() {
         <div className="text-xs text-muted-foreground mt-1">
           Question {currentQuestion + 1} of {questions.length}
         </div>
+        
+        {/* Progress Message */}
+        {currentPart < totalParts - 1 && (
+          <div className="text-xs text-blue-600 mt-2">
+            Complete this part to unlock Part {currentPart + 2}
+          </div>
+        )}
       </div>
 
       {/* Question */}
@@ -318,7 +477,12 @@ export default function LessonDetailPage() {
             <span className={isCorrect ? "text-green-500 font-bold" : "text-red-500 font-bold"}>
               {isCorrect ? "Correct!" : "Incorrect."}
             </span>
-            <span className="block text-muted-foreground mt-1">{q.explanation}</span>
+            <span className="block text-muted-foreground mt-1">
+              {isCorrect 
+                ? (q.explanation || 'Great job!').replace(/^Correct!\s*/, '') 
+                : `The correct answer is: ${q.answers.find((a: any) => a.correct)?.text}. ${(q.explanation || 'Keep learning!').replace(/^Correct!\s*/, '')}`
+              }
+            </span>
           </div>
         )}
       </div>

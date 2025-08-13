@@ -1,84 +1,91 @@
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { getBackendBase } from '@/lib/utils'
 
 interface StatsState {
   xp: number
   streak: number
   lastLessonDate: string | null
-  completedLessons: string[] // Array of completed lesson slugs
+  lessonProgress: Record<string, number> // lessonSlug -> progress percentage (0-100)
+  
   addXp: (amount: number) => void
-  completeLesson: (lessonSlug?: string) => void
+  updateLessonProgress: (lessonSlug: string, progress: number) => void
   resetStats: () => void
   getLessonProgress: (lessonSlug: string) => number
   loadUserProgress: (userId: number, token: string) => Promise<void>
-  syncProgressToBackend: (userId: number, token: string) => Promise<void>
   completeLessonOnBackend: (lessonSlug: string, xpEarned: number, token: string) => Promise<any>
 }
 
-export const useStatsStore = create<StatsState>()((set, get) => ({
+export const useStatsStore = create<StatsState>()(
+  persist(
+    (set, get) => ({
       xp: 0,
       streak: 0,
       lastLessonDate: null,
-      completedLessons: [],
+      lessonProgress: {},
 
       addXp: (amount) => {
+        console.log('Adding XP:', amount, 'Current XP before:', get().xp);
         set((state) => ({ xp: state.xp + amount }))
+        console.log('XP after adding:', get().xp);
       },
 
-      completeLesson: (lessonSlug) => {
-        const today = new Date().toISOString().split('T')[0]
-        const { lastLessonDate, streak, completedLessons } = get()
-
-        // Add lesson to completed list if provided and not already completed
-        let newCompletedLessons = completedLessons;
-        if (lessonSlug && !completedLessons.includes(lessonSlug)) {
-          newCompletedLessons = [...completedLessons, lessonSlug];
-        }
-
+      updateLessonProgress: (lessonSlug, progress) => {
+        console.log('Updating lesson progress:', lessonSlug, 'to', progress);
+        
+        const today = new Date().toISOString().split('T')[0];
+        const { lastLessonDate, streak } = get();
+        
+        // Handle streak logic
         let newStreak = streak;
         if (lastLessonDate !== today) {
-            if (lastLessonDate === null) {
-                // First lesson ever
-                newStreak = 1;
+          if (lastLessonDate === null) {
+            // First lesson ever
+            newStreak = 1;
+          } else {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+            
+            if (lastLessonDate === yesterdayStr) {
+              // Consecutive day
+              newStreak = streak + 1;
             } else {
-                const yesterday = new Date()
-                yesterday.setDate(yesterday.getDate() - 1)
-                const yesterdayStr = yesterday.toISOString().split('T')[0]
-                
-                if (lastLessonDate === yesterdayStr) {
-                    // Consecutive day
-                    newStreak = streak + 1;
-                } else {
-                    // Streak broken, restart
-                    newStreak = 1;
-                }
+              // Streak broken, restart
+              newStreak = 1;
             }
+          }
         }
         // If lastLessonDate === today, don't change streak (already completed today)
         
-        set({ 
-          streak: newStreak, 
-          lastLessonDate: today,
-          completedLessons: newCompletedLessons
-        })
+        set((state) => ({
+          lessonProgress: {
+            ...state.lessonProgress,
+            [lessonSlug]: Math.max(progress, state.lessonProgress[lessonSlug] || 0)
+          },
+          streak: newStreak,
+          lastLessonDate: today
+        }));
+        
+        console.log('New lesson progress:', get().lessonProgress);
+        console.log('Streak updated:', newStreak, 'Last lesson date:', today);
       },
 
       resetStats: () => {
-        set({ xp: 0, streak: 0, lastLessonDate: null, completedLessons: [] })
+        set({ xp: 0, streak: 0, lastLessonDate: null, lessonProgress: {} })
       },
 
       getLessonProgress: (lessonSlug) => {
-        const { completedLessons } = get()
-        return completedLessons.includes(lessonSlug) ? 100 : 0
+        return get().lessonProgress[lessonSlug] || 0
       },
 
       loadUserProgress: async (userId: number, token: string) => {
         try {
-          // First reset stats to clear any previous user's data
+          // Reset stats to clear any previous user's data
           set({
             xp: 0,
             streak: 0,
-            completedLessons: [],
+            lessonProgress: {},
             lastLessonDate: null,
           })
 
@@ -105,85 +112,65 @@ export const useStatsStore = create<StatsState>()((set, get) => ({
               },
             })
 
-            let completedLessons: string[] = []
+            let lessonProgress: Record<string, number> = {}
             if (lessonsResponse.ok) {
               const lessonsData = await lessonsResponse.json()
               console.log('Backend lessons data:', lessonsData)
-              completedLessons = lessonsData
-                .filter((lesson: any) => lesson.completed)
-                .map((lesson: any) => lesson.slug)
+              
+              // Convert backend data to progress format
+              lessonsData.forEach((lesson: any) => {
+                if (lesson.completed) {
+                  lessonProgress[lesson.slug] = 100; // Fully completed
+                } else if (lesson.progress) {
+                  lessonProgress[lesson.slug] = lesson.progress; // Partial progress
+                }
+              });
             }
 
             // Update store with backend data
             const newState = {
               xp: userData.xp || 0,
-              streak: userData.streak_count || 0,
-              completedLessons,
-              lastLessonDate: null, // We'll need to track this in backend later
-            }
-            console.log('Setting new stats state:', newState)
-            set(newState)
-          } else {
-            console.error('Failed to fetch user data:', await userResponse.text())
+              streak: userData.streak || 0,
+              lastLessonDate: userData.lastLessonDate || null,
+              lessonProgress: lessonProgress
+            };
+            
+            console.log('Setting state from backend:', newState);
+            set(newState);
           }
         } catch (error) {
-          console.error('Failed to load user progress:', error)
-        }
-      },
-
-      syncProgressToBackend: async (userId: number, token: string) => {
-        try {
-          const { xp, streak } = get()
-          const BASE = getBackendBase()
-          // Update user XP and streak on backend
-          const response = await fetch(`${BASE}/users/me`, {
-            method: 'PUT',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              xp,
-              streak_count: streak,
-            }),
-          })
-
-          if (response.ok) {
-            console.log('Successfully synced progress to backend')
-          } else {
-            console.error('Failed to sync progress to backend:', await response.text())
-          }
-        } catch (error) {
-          console.error('Failed to sync progress to backend:', error)
+          console.error('Failed to load user progress:', error);
         }
       },
 
       completeLessonOnBackend: async (lessonSlug: string, xpEarned: number, token: string) => {
         try {
           const BASE = getBackendBase()
-          const response = await fetch(`${BASE}/users/me/lessons/complete`, {
+          const response = await fetch(`${BASE}/users/me/lessons/${lessonSlug}/complete`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              lesson_slug: lessonSlug,
-              xp_earned: xpEarned,
-            }),
+            body: JSON.stringify({ xpEarned }),
           })
-
+          
           if (response.ok) {
-            const result = await response.json()
-            console.log('Successfully completed lesson on backend:', result)
-            return result
+            console.log('Lesson completion synced to backend');
+            return await response.json();
           } else {
-            console.error('Failed to complete lesson on backend:', await response.text())
-            return null
+            console.error('Failed to sync lesson completion to backend');
+            return null;
           }
         } catch (error) {
-          console.error('Failed to complete lesson on backend:', error)
-          return null
+          console.error('Error syncing lesson completion:', error);
+          return null;
         }
       },
-}))
+    }),
+    {
+      name: 'harmony-quest-stats',
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+)

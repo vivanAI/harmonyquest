@@ -1,6 +1,7 @@
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Header } from "@/components/header"
+import { ProgressLoader } from "@/components/progress-loader"
 
 export default function MainLayout({
   children,
@@ -9,6 +10,7 @@ export default function MainLayout({
 }) {
   return (
     <SidebarProvider>
+      <ProgressLoader />
       <div className="flex min-h-screen w-full">
         <AppSidebar />
         <div className="flex flex-col flex-1">

@@ -45,7 +45,7 @@ export function AiGuideClient() {
     const result = await culturalEtiquetteQueryAction(data)
     
     if (result.success && result.answer) {
-      setMessages(prev => [...prev, { role: 'ai', content: result.answer }])
+      setMessages(prev => [...prev, { role: 'ai', content: result.answer || 'No response received' }])
     } else {
       setMessages(prev => [...prev, { role: 'ai', content: result.error || "Sorry, I couldn't process that request." }])
     }
