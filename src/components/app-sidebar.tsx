@@ -120,12 +120,12 @@ export function AppSidebar() {
           </div>
           <div className="flex-1 overflow-hidden">
             <p className="font-semibold truncate text-sm">
-              {user?.name || "Sign In"}
+              {user?.name || "Victor"}
             </p>
             <div className="flex items-center gap-1">
               <TrendingUp className="w-3 h-3 text-green-500" />
               <p className="text-xs text-muted-foreground truncate">
-                {user?.email || "Click to login or register"}
+                {user?.email || "Ready to learn"}
               </p>
             </div>
           </div>

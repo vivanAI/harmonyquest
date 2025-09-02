@@ -17,9 +17,9 @@ import { useSession } from "next-auth/react"
 import { useEffect, useRef, useState } from "react"
 
 const learningModules = [
-  { title: "Festivals of Faith", slug: "festivals-of-faith", icon: BookOpen, difficulty: "Beginner", estimatedTime: "15 min" },
-  { title: "Core Tenets & Beliefs", slug: "core-tenets-beliefs", icon: BookOpen, difficulty: "Intermediate", estimatedTime: "25 min" },
-  { title: "Sacred Places", slug: "sacred-places", icon: BookOpen, difficulty: "Beginner", estimatedTime: "20 min" },
+  { title: "Festivals of Faith", slug: "festivals-of-faith", icon: BookOpen, difficulty: "Beginner", estimatedTime: "8 min" },
+  { title: "Core Tenets & Beliefs", slug: "core-tenets-beliefs", icon: BookOpen, difficulty: "Intermediate", estimatedTime: "10 min" },
+  { title: "Sacred Places", slug: "sacred-places", icon: BookOpen, difficulty: "Beginner", estimatedTime: "10 min" },
 ]
 
 // Calculate rank based on XP

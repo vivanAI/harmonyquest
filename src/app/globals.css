@@ -73,6 +73,18 @@
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
   }
   
+  /* Feedback animation */
+  @keyframes slideInUp {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
   /* Gradient text utilities */
   .gradient-text-primary {
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;

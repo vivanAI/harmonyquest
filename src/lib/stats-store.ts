@@ -7,6 +7,7 @@ interface StatsState {
   streak: number
   lastLessonDate: string | null
   lessonProgress: Record<string, number> // lessonSlug -> progress percentage (0-100)
+  _forceUpdate: number // Force re-render trigger
   
   addXp: (amount: number) => void
   updateLessonProgress: (lessonSlug: string, progress: number) => void
@@ -14,6 +15,8 @@ interface StatsState {
   getLessonProgress: (lessonSlug: string) => number
   loadUserProgress: (userId: number, token: string) => Promise<void>
   completeLessonOnBackend: (lessonSlug: string, xpEarned: number, token: string) => Promise<any>
+  refreshUserStats: (userId: number, token: string) => Promise<void>
+  forceUpdate: () => void
 }
 
 export const useStatsStore = create<StatsState>()(
@@ -23,10 +26,14 @@ export const useStatsStore = create<StatsState>()(
       streak: 0,
       lastLessonDate: null,
       lessonProgress: {},
+      _forceUpdate: 0,
 
       addXp: (amount) => {
         console.log('Adding XP:', amount, 'Current XP before:', get().xp);
-        set((state) => ({ xp: state.xp + amount }))
+        set((state) => ({ 
+          xp: state.xp + amount,
+          _forceUpdate: state._forceUpdate + 1
+        }))
         console.log('XP after adding:', get().xp);
       },
 
@@ -146,6 +153,9 @@ export const useStatsStore = create<StatsState>()(
       completeLessonOnBackend: async (lessonSlug: string, xpEarned: number, token: string) => {
         try {
           const BASE = getBackendBase()
+          console.log('Syncing lesson completion to backend:', { lessonSlug, xpEarned, baseUrl: BASE });
+          console.log('Token being sent:', token ? token.substring(0, 50) + '...' : 'NO TOKEN');
+          
           const response = await fetch(`${BASE}/users/me/lessons/${lessonSlug}/complete`, {
             method: 'POST',
             headers: {
@@ -155,17 +165,51 @@ export const useStatsStore = create<StatsState>()(
             body: JSON.stringify({ xpEarned }),
           })
           
+          console.log('Backend response status:', response.status);
+          
           if (response.ok) {
-            console.log('Lesson completion synced to backend');
-            return await response.json();
+            const result = await response.json();
+            console.log('Lesson completion synced to backend successfully:', result);
+            return result;
           } else {
-            console.error('Failed to sync lesson completion to backend');
+            const errorText = await response.text();
+            console.error('Failed to sync lesson completion to backend:', response.status, errorText);
             return null;
           }
         } catch (error) {
           console.error('Error syncing lesson completion:', error);
           return null;
         }
+      },
+
+      refreshUserStats: async (userId: number, token: string) => {
+        try {
+          const BASE = getBackendBase()
+          const response = await fetch(`${BASE}/users/me`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          })
+
+          if (response.ok) {
+            const userData = await response.json()
+            console.log('Refreshed user data from backend:', userData)
+            
+            // Update only XP and streak from backend
+            set((state) => ({
+              ...state,
+              xp: userData.xp || 0,
+              streak: userData.streak_count || 0
+            }))
+          }
+        } catch (error) {
+          console.error('Failed to refresh user stats:', error);
+        }
+      },
+
+      forceUpdate: () => {
+        set((state) => ({ _forceUpdate: state._forceUpdate + 1 }));
       },
     }),
     {

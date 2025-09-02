@@ -57,10 +57,18 @@ export function AiGuideClient() {
     <div className="flex flex-col h-full max-h-[calc(100vh-8rem)]">
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
+          <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground space-y-4">
             <Bot className="w-16 h-16 mb-4" />
             <h2 className="text-2xl font-semibold">AI Cultural Guide</h2>
-            <p>Ask me anything about cultural, racial, or religious etiquette.</p>
+            <p className="text-lg">Ask me anything about cultural, racial, or religious etiquette.</p>
+            <div className="max-w-md space-y-2 text-sm">
+              <p className="font-medium">Try asking:</p>
+              <ul className="space-y-1 text-left">
+                <li>• "What should I know about Ramadan etiquette?"</li>
+                <li>• "How do I respectfully participate in a Christian church service?"</li>
+                <li>• "What are important considerations when visiting a Hindu temple?"</li>
+              </ul>
+            </div>
           </div>
         )}
         {messages.map((message, index) => (
@@ -70,8 +78,10 @@ export function AiGuideClient() {
                 <AvatarFallback><Bot /></AvatarFallback>
               </Avatar>
             )}
-            <div className={`rounded-lg p-3 max-w-lg ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
-              <p className="whitespace-pre-wrap">{message.content}</p>
+            <div className={`rounded-lg p-4 max-w-2xl ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+              <div className="prose prose-sm max-w-none dark:prose-invert">
+                <div className="whitespace-pre-wrap">{message.content}</div>
+              </div>
             </div>
              {message.role === 'user' && (
               <Avatar>
@@ -85,9 +95,14 @@ export function AiGuideClient() {
               <Avatar>
                 <AvatarFallback><Bot /></AvatarFallback>
               </Avatar>
-              <div className="rounded-lg p-3 bg-muted w-full max-w-lg">
+              <div className="rounded-lg p-4 bg-muted w-full max-w-2xl">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                  <span className="text-sm text-muted-foreground">AI is thinking...</span>
+                </div>
                 <Skeleton className="h-4 w-3/4 mb-2" />
-                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-4 w-1/2 mb-2" />
+                <Skeleton className="h-4 w-2/3" />
               </div>
             </div>
         )}

@@ -96,9 +96,7 @@ export default function LearnPage() {
             <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
               Learning Journey
             </h1>
-            <p className="text-lg text-muted-foreground mt-2">
-              Duolingo-style modular, interactive lessons with positive feedback and progress tracking.
-            </p>
+
           </div>
           <Button
             onClick={() => {
@@ -194,9 +192,6 @@ export default function LearnPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold">Available Lessons</h2>
-          <Badge variant="outline" className="px-3 py-1">
-            {lessons.length} lessons available
-          </Badge>
         </div>
         
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

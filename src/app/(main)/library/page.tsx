@@ -19,7 +19,7 @@ const religions = [
 ]
 
 function CultureCard({ name, image, hint, category }: { name: string, image: string, hint: string, category: string }) {
-  const slug = name.toLowerCase().replace(/ /g, "-").replace(/ʼ/g, "");
+  const slug = name.toLowerCase().replace(/ /g, "-").replace(/[ʼ'']/g, "").replace(/[áàâä]/g, "a").replace(/[íìîï]/g, "i");
   return (
     <Link href={`/library/${category}/${slug}`} className="block h-full">
         <Card className="overflow-hidden group cursor-pointer h-full flex flex-col">

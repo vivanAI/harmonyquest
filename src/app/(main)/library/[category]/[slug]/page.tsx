@@ -14,7 +14,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
   religions: {
     buddhism: { 
       title: "Buddhism", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/buddhism-card.png", 
       hint: "buddha statue", 
       category: "Religion", 
       summary: "Buddhism is the largest religion in Singapore (about 31.1% of the population). It was brought by Asian immigrants (Chinese, Thai, Burmese, etc.) centuries ago. Today most Singapore Buddhists follow Chinese Mahayana or Southeast Asian Theravāda traditions.", 
@@ -31,7 +31,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     christianity: { 
       title: "Christianity", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/christianity-card.png", 
       hint: "church window", 
       category: "Religion", 
       summary: "Christianity is the second-largest religion in Singapore (about 18.9% of residents). The community includes both Roman Catholics and Protestants (the latter comprise about 62.9% of Christians, with Catholics 37.1%). Christian missionaries arrived during British colonial times, establishing schools and hospitals. The first church was the Armenian Church of St. Gregory (built 1836).", 
@@ -48,7 +48,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     islam: { 
       title: "Islam", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/islam-card.png", 
       hint: "mosque interior", 
       category: "Religion", 
       summary: "Islam is practised by about 15.6% of Singaporeans (2020 census). Virtually all ethnic Malays in Singapore are Muslim (around 98.8% of Malays are Muslim). Singapore’s Muslims trace their roots to Malay, Arab, and Indian traders. Islam here is primarily Sunni with local customs.", 
@@ -65,7 +65,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     hinduism: { 
       title: "Hinduism", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/hinduism-card.png", 
       hint: "ganesha statue", 
       category: "Religion", 
       summary: "Hinduism is practised by about 5.0% of Singaporeans. Most are of South Indian Tamil origin. Hindu culture arrived with early Indian immigrants in the 19th century (especially Tamils), and today Sri Mariamman Temple (built 1827) in Chinatown remains a landmark of that heritage.", 
@@ -82,7 +82,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     sikhism: { 
       title: "Sikhism", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/sikhism-card.png", 
       hint: "golden temple", 
       category: "Religion", 
       summary: "Sikhism is a small but historic community in Singapore (around 0.3% of the population). It was brought by Punjabi immigrants in the 19th century. The Singapore Khalsa Association and gurdwaras have served the community since.", 
@@ -99,7 +99,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     judaism: { 
       title: "Judaism", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/judaism-card.png", 
       hint: "torah scroll", 
       category: "Religion", 
       summary: "Singapore has a small Jewish community with a history dating to the 19th century. In 1931 there were about 832 Jews in Singapore. The community peaked at around 1,500 mid-20th century, many of whom were Anglo-Jewish and Sephardic traders. Today their numbers are in the low thousands.", 
@@ -116,7 +116,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     taoism: { 
       title: "Taoism", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/taoism-card.png", 
       hint: "yin yang", 
       category: "Religion", 
       summary: "Taoism (Daoism) is practiced (often alongside Buddhism) by about 8.8% of Singaporeans. Many Chinese Singaporeans identify with Taoist beliefs or engage in Chinese folk religion. Taoism emphasizes living in harmony with the Tao (the Way), respecting ancestors, and balancing yin and yang.", 
@@ -133,7 +133,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     "bahai-faith": { 
       title: "Baháʼí Faith", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/bahai-faith-card.png", 
       hint: "lotus temple", 
       category: "Religion", 
       summary: "The Bahá’í Faith is a very small religion in Singapore (a fraction of a percent) but is an officially recognized minority faith. The first local Bahá’ís organized in the 1950s. Today there are over 2,000 Bahá’ís in Singapore with five Local Spiritual Assemblies overseeing the community.", 
@@ -142,7 +142,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
         { title: "Major Festivals and Holidays", content: "Holy Days: The Bahá’í calendar has nine holy days (e.g. Naw-Rúz, the New Year on March 21; the Birth of Bahá’u’lláh; the Declaration of the Báb). These are not holidays in Singapore, but since 1972 all nine have been officially recognized (gazetted) as religious holidays (similar to Buddhist and Hindu holidays).\nCommunity Feasts: On Holy Days, Bahá’ís often meet for devotional readings and community meals in homes or the Bahá’í Centre. Everyone is welcome, regardless of background." },
         { title: "Traditional Clothing and Dress", content: "Bahá’í members have no specific dress code; they wear the same attire as their cultural community. However, modesty is generally encouraged, and men remove headgear in Bahá’í houses of worship (there is none in Singapore)." },
         { title: "Food and Cuisine", content: "The Bahá’í Faith has no dietary restrictions. Singaporean Bahá’ís eat from the local cuisine (Malay, Chinese, Indian), reflecting Singapore’s diversity. Community events might feature international fare or local favorites alike." },
-        { title: "Customs and Daily Practices", content: "Daily Prayer: The Bahá’í houses five obligatory prayers and various recommended prayers. Many Bahá’ís read a short prayer each morning and evening.\nHoly Qur’an and Bible: Bahá’ís read from all holy scriptures; in Singapore, some gatherings include readings from the Bahá’í Writings, Qur’an, Bible, or other texts to promote interfaith harmony.\nCommunity Service: Service to others is fundamental. Singapore Bahá’ís run youth empowerment programs, children’s classes, and institute tutoring/coaching for underprivileged students as part of their “community-building” activities." },
+        { title: "Customs and Daily Practices", content: "Daily Prayer: The Bahá'í Faith has three obligatory prayers and various recommended prayers. Many Bahá'ís read a short prayer each morning and evening.\nHoly Qur'an and Bible: Bahá'ís read from all holy scriptures; in Singapore, some gatherings include readings from the Bahá'í Writings, Qur'an, Bible, or other texts to promote interfaith harmony.\nCommunity Service: Service to others is fundamental. Singapore Bahá'ís run youth empowerment programs, children's classes, and institute tutoring/coaching for underprivileged students as part of their community-building activities." },
         { title: "Places of Worship or Cultural Significance", content: "There is no Bahá’í temple in Singapore. The Bahá’í Centre (a multi-purpose building with meeting halls, library, and offices) serves as the community’s focal point. It hosts Nineteen Day Feasts, classes, and administrative functions.\nThe Bahá’í communities in neighboring Malaysia sometimes draw Singapore Bahá’ís for regional gatherings (the Lotus Temple in New Delhi, dedicated to the Bahá’í Faith, is also known to Singapore Bahá’ís as a pilgrimage site)." },
         { title: "Etiquette and Respectful Behavior", content: "Meetings: Bahá’í meetings begin and end with silence or prayer. Attendees stand during prayer and sit respectfully otherwise.\nGreetings: Bahá’ís greet each other with “Alláhu’l-Abhá” (God is Most Glorious) among themselves, but they typically use normal local greetings like “hello” or “salam” with non-Bahá’ís." },
         { title: "Fun Facts or Lesser-Known Insights", content: "Local Assembly: Each Bahá’í community of 9+ adult members elects a Local Spiritual Assembly annually. Singapore has five of these councils. Elections have no campaigning – all members run privately and elect by secret ballot.\nThe Bahá’í charity clinic project in Malaysia, supported by Singapore Bahá’ís, provides free healthcare to rural villagers, reflecting the faith’s emphasis on service.\nBahá’ís observe a 19-day fast each March (for 19 days, dawn to sunset). During Ramadan in Singapore, some Bahá’ís voluntarily fast with their Muslim neighbours as a gesture of solidarity, though it’s not a religious requirement for them." }
@@ -150,7 +150,7 @@ const contentData: { [key: string]: { [key: string]: any } } = {
     },
     jainism: { 
       title: "Jainism", 
-      image: "https://placehold.co/1200x400", 
+      image: "/images/jainism-card.png", 
       hint: "jain symbol", 
       category: "Religion", 
       summary: "Jainism has a very small presence in Singapore (around 1,000 adherents as of 2006). The community consists of both Śvētāmbara and Digambara Jains (reflecting major Jain sects), who have coexisted here peacefully.", 

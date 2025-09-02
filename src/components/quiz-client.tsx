@@ -13,6 +13,7 @@ import { CheckCircle2, XCircle, Lightbulb } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 import { useStatsStore } from '@/lib/stats-store'
+import { QuizCompletionScreen } from './quiz-completion-screen'
 
 interface QuizClientProps {
   questions: Question[]
@@ -93,27 +94,11 @@ export function QuizClient({ questions }: QuizClientProps) {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100
 
   if (isQuizComplete) {
-    const finalScore = (correctAnswers / questions.length) * 100
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Quiz Complete!</CardTitle>
-        </CardHeader>
-        <CardContent className="text-center">
-          <p className="text-lg">You scored {correctAnswers} out of {questions.length}!</p>
-          <p className="text-2xl font-bold mt-2">{finalScore.toFixed(0)}%</p>
-          <Progress value={finalScore} className="mt-4" />
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button onClick={handleRestartQuiz} className="w-full">
-            Try Again
-          </Button>
-           <Button variant="outline" asChild className="w-full">
-            <a href="/learn">Back to Lessons</a>
-          </Button>
-        </CardFooter>
-      </Card>
-    )
+    return <QuizCompletionScreen 
+      correctAnswers={correctAnswers}
+      totalQuestions={questions.length}
+      onRestart={handleRestartQuiz}
+    />
   }
 
   return (
@@ -138,11 +123,11 @@ export function QuizClient({ questions }: QuizClientProps) {
              <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
                {currentQuestionIndex + 1}
              </div>
-             <CardTitle className="text-xl text-white">Question {currentQuestionIndex + 1}</CardTitle>
+             <CardTitle className="text-xl text-blue-900 dark:text-blue-100">Question {currentQuestionIndex + 1}</CardTitle>
            </div>
          </CardHeader>
          <CardContent className="space-y-6">
-           <p className="text-lg font-semibold text-white leading-relaxed">{currentQuestion.questionText}</p>
+           <p className="text-lg font-semibold text-blue-900 dark:text-blue-100 leading-relaxed">{currentQuestion.questionText}</p>
           <RadioGroup
             value={selectedAnswer ?? undefined}
             onValueChange={setSelectedAnswer}
@@ -152,14 +137,14 @@ export function QuizClient({ questions }: QuizClientProps) {
             {currentQuestion.answers.map((answer, index) => (
                                             <label 
                  key={index} 
-                 className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                 className={`flex items-center p-4 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
                    selectedAnswer === answer.text 
-                     ? 'border-blue-400 bg-blue-900/30 shadow-md' 
-                     : 'border-gray-600 bg-black hover:border-blue-400 hover:bg-gray-900'
+                     ? 'bg-blue-100 dark:bg-blue-800/40 shadow-md' 
+                     : 'bg-white dark:bg-blue-900/20 hover:bg-blue-50 dark:hover:bg-blue-800/30'
                  } ${showFeedback ? 'pointer-events-none' : ''}`}
                >
-                 <RadioGroupItem value={answer.text} id={`r${index}`} className="w-5 h-5" />
-                 <Label htmlFor={`r${index}`} className="text-gray-200 font-medium cursor-pointer">{answer.text}</Label>
+                 <RadioGroupItem value={answer.text} id={`r${index}`} className="sr-only" />
+                 <Label htmlFor={`r${index}`} className="text-blue-900 dark:text-blue-100 font-medium cursor-pointer">{answer.text}</Label>
                </label>
             ))}
           </RadioGroup>
