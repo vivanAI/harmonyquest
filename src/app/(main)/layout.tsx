@@ -11,11 +11,13 @@ export default function MainLayout({
   return (
     <SidebarProvider>
       <ProgressLoader />
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full bg-gradient-to-br from-background via-background to-muted/20">
         <AppSidebar />
         <div className="flex flex-col flex-1">
           <Header />
-          <main className="flex-1 p-4 sm:px-6 sm:py-0">{children}</main>
+          <main className="flex-1 p-6 sm:px-8 sm:py-6 max-w-7xl mx-auto w-full">
+            {children}
+          </main>
         </div>
       </div>
     </SidebarProvider>

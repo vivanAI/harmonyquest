@@ -11,6 +11,7 @@ import { Progress } from '@/components/ui/progress'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { CheckCircle2, XCircle, Lightbulb } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
 import { useStatsStore } from '@/lib/stats-store'
 
 interface QuizClientProps {
@@ -23,6 +24,7 @@ export function QuizClient({ questions }: QuizClientProps) {
   const [showFeedback, setShowFeedback] = useState(false)
   const [correctAnswers, setCorrectAnswers] = useState(0)
   const [isQuizComplete, setIsQuizComplete] = useState(false)
+
   const { addXp, completeLesson, completeLessonOnBackend } = useStatsStore()
   const { data: session } = useSession()
 
@@ -116,73 +118,107 @@ export function QuizClient({ questions }: QuizClientProps) {
 
   return (
     <div className="space-y-6">
-      {/* Progress Display */}
-      <div className="p-4 border rounded bg-card">
-        <div className="flex justify-between items-center mb-2">
-          <span className="font-semibold">Quiz Progress</span>
-          <span className="text-sm text-muted-foreground">
-            {currentQuestionIndex + 1} of {questions.length}
-          </span>
-        </div>
-        <Progress value={progress} className="mb-2" />
-        <div className="text-xs text-muted-foreground">
-          {Math.round(progress)}% complete
-        </div>
+                    {/* Progress Display */}
+        <div className="p-6 border-2 border-blue-200 rounded-2xl bg-gradient-to-br from-black to-gray-900 shadow-lg">
+                 <div className="flex justify-between items-center mb-3">
+           <span className="font-semibold text-lg text-white">🎯 Quiz Progress</span>
+           <span className="text-sm text-blue-300 font-medium">
+             Question {currentQuestionIndex + 1} of {questions.length}
+           </span>
+         </div>
+         <Progress value={progress} className="mb-3 h-3" />
+         <div className="text-sm text-gray-300">
+           {Math.round(progress)}% complete - You're doing great! 🚀
+         </div>
       </div>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>Question {currentQuestionIndex + 1}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-lg font-semibold mb-4">{currentQuestion.questionText}</p>
+                                                                                                               <Card className="border-2 border-blue-200 shadow-lg bg-gradient-to-br from-black to-gray-900">
+                 <CardHeader className="pb-4">
+           <div className="flex items-center gap-3">
+             <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+               {currentQuestionIndex + 1}
+             </div>
+             <CardTitle className="text-xl text-white">Question {currentQuestionIndex + 1}</CardTitle>
+           </div>
+         </CardHeader>
+         <CardContent className="space-y-6">
+           <p className="text-lg font-semibold text-white leading-relaxed">{currentQuestion.questionText}</p>
           <RadioGroup
             value={selectedAnswer ?? undefined}
             onValueChange={setSelectedAnswer}
             disabled={showFeedback}
+            className="space-y-3"
           >
             {currentQuestion.answers.map((answer, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <RadioGroupItem value={answer.text} id={`r${index}`} />
-                <Label htmlFor={`r${index}`}>{answer.text}</Label>
-              </div>
+                                            <label 
+                 key={index} 
+                 className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                   selectedAnswer === answer.text 
+                     ? 'border-blue-400 bg-blue-900/30 shadow-md' 
+                     : 'border-gray-600 bg-black hover:border-blue-400 hover:bg-gray-900'
+                 } ${showFeedback ? 'pointer-events-none' : ''}`}
+               >
+                 <RadioGroupItem value={answer.text} id={`r${index}`} className="w-5 h-5" />
+                 <Label htmlFor={`r${index}`} className="text-gray-200 font-medium cursor-pointer">{answer.text}</Label>
+               </label>
             ))}
           </RadioGroup>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="pt-4">
           {showFeedback ? (
-            <Button onClick={handleNextQuestion} className="w-full">
-              {currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
+            <Button 
+              onClick={handleNextQuestion} 
+              className="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+            >
+              {currentQuestionIndex < questions.length - 1 ? 'Continue →' : '🎉 Finish Quiz'}
             </Button>
           ) : (
-            <Button onClick={handleCheckAnswer} disabled={!selectedAnswer} className="w-full">
-              Check Answer
+            <Button 
+              onClick={handleCheckAnswer} 
+              disabled={!selectedAnswer} 
+              className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 ${
+                !selectedAnswer
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl'
+              }`}
+            >
+              {!selectedAnswer ? 'Choose an answer first' : 'Check My Answer ✨'}
             </Button>
           )}
         </CardFooter>
       </Card>
 
-      {showFeedback && (
-        <Alert variant={isCorrect ? 'default' : 'destructive'} className={cn(isCorrect ? 'bg-green-500/10 border-green-500 text-green-700 dark:text-green-400' : 'bg-red-500/10 border-red-500 text-red-700 dark:text-red-400')}>
-          {isCorrect ? 
-            <CheckCircle2 className="h-4 w-4" color={cn('text-green-500')} /> : 
-            <XCircle className="h-4 w-4" color={cn('text-red-500')} />
-          }
-          <AlertTitle className="font-bold">
-            {isCorrect ? 'Correct!' : 'Incorrect'}
-          </AlertTitle>
-          <AlertDescription>
-            <div className="flex items-start gap-2 mt-2">
-              <Lightbulb className="h-4 w-4 flex-shrink-0 mt-1" />
-              <p>
-                {isCorrect 
-                  ? (currentQuestion.explanation || 'Great job!').replace(/^Correct!\s*/, '') 
-                  : `The correct answer is: ${currentQuestion.answers.find(a => a.correct)?.text}. ${(currentQuestion.explanation || 'Keep learning!').replace(/^Correct!\s*/, '')}`
-                }
-              </p>
+             {showFeedback && (
+         <div className={`p-6 rounded-2xl border-2 transition-all duration-300 ${
+           isCorrect 
+             ? 'border-green-400 bg-green-900/30 text-green-200' 
+             : 'border-red-400 bg-red-900/30 text-red-200'
+         }`}>
+          <div className="flex items-start gap-4">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+              isCorrect ? 'bg-green-500' : 'bg-red-500'
+            }`}>
+              {isCorrect ? 
+                <CheckCircle2 className="h-5 w-5 text-white" /> : 
+                <XCircle className="h-5 w-5 text-white" />
+              }
             </div>
-          </AlertDescription>
-        </Alert>
+                         <div className="flex-1">
+               <h3 className="font-bold text-lg mb-2">
+                 {isCorrect ? '🎉 Excellent! You got it right!' : '💪 Not quite right, but that\'s okay!'}
+               </h3>
+               <div className="flex items-start gap-3">
+                 <Lightbulb className="h-5 w-5 flex-shrink-0 mt-1 text-yellow-400" />
+                 <p className="text-base leading-relaxed">
+                   {isCorrect 
+                     ? (currentQuestion.explanation || 'Great job! Keep up the fantastic work!').replace(/^Correct!\s*/, '') 
+                     : `The correct answer is: ${currentQuestion.answers.find(a => a.correct)?.text}. ${(currentQuestion.explanation || 'Keep learning and you\'ll get it next time!').replace(/^Correct!\s*/, '')}`
+                   }
+                 </p>
+               </div>
+             </div>
+          </div>
+        </div>
       )}
     </div>
   )

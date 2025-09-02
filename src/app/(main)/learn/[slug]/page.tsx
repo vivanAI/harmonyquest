@@ -5,6 +5,7 @@ import { useStatsStore } from "@/lib/stats-store";
 import { useSession } from "next-auth/react";
 import { getBackendBase } from "@/lib/utils"
 
+
 export default function LessonDetailPage() {
   const { slug } = useParams();
   const [lesson, setLesson] = useState<any>(null);
@@ -16,6 +17,7 @@ export default function LessonDetailPage() {
   const [lessonCompleted, setLessonCompleted] = useState(false);
   const [completedParts, setCompletedParts] = useState<Set<number>>(new Set());
   const [isClient, setIsClient] = useState(false);
+
   const { addXp, updateLessonProgress, completeLessonOnBackend, getLessonProgress } = useStatsStore();
   const { data: session } = useSession();
 
@@ -391,7 +393,7 @@ export default function LessonDetailPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">{lesson.title}</h1>
+        <h1 className="text-3xl font-bold mb-4">{lesson.title}</h1>
       
       {/* Overall Progress Bar */}
       <div className="mb-6 p-4 border rounded bg-card">
@@ -453,56 +455,86 @@ export default function LessonDetailPage() {
       </div>
 
       {/* Question */}
-      <div className="p-4 border rounded bg-card mb-6">
-        <div className="font-semibold mb-2">Q{currentQuestion + 1}: {q.questionText}</div>
-        <ul className="list-disc pl-6">
+      <div className="p-6 border-2 border-blue-200 rounded-2xl bg-gradient-to-br from-black to-gray-900 shadow-lg mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+            {currentQuestion + 1}
+          </div>
+          <h3 className="text-lg font-semibold text-white">{q.questionText}</h3>
+        </div>
+        
+        <div className="space-y-3">
           {q.answers.map((a: any, i: number) => (
-            <li key={i} className="mb-2">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name={`q${currentAnswerKey}`}
-                  checked={selected === i}
-                  onChange={() => handleSelect(i)}
-                  className="accent-blue-500"
-                  disabled={showFeedback}
-                />
-                {a.text}
-              </label>
-            </li>
+            <label 
+              key={i} 
+              className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                selected === i 
+                  ? 'border-blue-400 bg-blue-900/30 shadow-md' 
+                  : 'border-gray-600 bg-black hover:border-blue-400 hover:bg-gray-900'
+              } ${showFeedback ? 'pointer-events-none' : ''}`}
+            >
+              <input
+                type="radio"
+                name={`q${currentAnswerKey}`}
+                checked={selected === i}
+                onChange={() => handleSelect(i)}
+                className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-blue-500"
+                disabled={showFeedback}
+              />
+                              <span className="text-gray-200 font-medium">{a.text}</span>
+            </label>
           ))}
-        </ul>
+        </div>
         {showFeedback && selected !== undefined && (
-          <div className="mt-2 text-sm">
-            <span className={isCorrect ? "text-green-500 font-bold" : "text-red-500 font-bold"}>
-              {isCorrect ? "Correct!" : "Incorrect."}
-            </span>
-            <span className="block text-muted-foreground mt-1">
-              {isCorrect 
-                ? (q.explanation || 'Great job!').replace(/^Correct!\s*/, '') 
-                : `The correct answer is: ${q.answers.find((a: any) => a.correct)?.text}. ${(q.explanation || 'Keep learning!').replace(/^Correct!\s*/, '')}`
-              }
-            </span>
+          <div className={`mt-4 p-4 rounded-xl border-2 transition-all duration-300 ${
+            isCorrect 
+              ? 'border-green-400 bg-green-900/30 text-green-200' 
+              : 'border-red-400 bg-red-900/30 text-red-200'
+          }`}>
+            <div className="flex items-center gap-3">
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                isCorrect ? 'bg-green-500' : 'bg-red-500'
+              }`}>
+                <span className="text-white text-sm font-bold">
+                  {isCorrect ? '✓' : '✗'}
+                </span>
+              </div>
+              <div>
+                <div className="font-semibold mb-1">
+                  {isCorrect ? "Excellent! You got it right!" : "Not quite right, but that's okay!"}
+                </div>
+                <div className="text-sm opacity-90">
+                  {isCorrect 
+                    ? (q.explanation || 'Great job! Keep up the fantastic work!').replace(/^Correct!\s*/, '') 
+                    : `The correct answer is: ${q.answers.find((a: any) => a.correct)?.text}. ${(q.explanation || 'Keep learning and you\'ll get it next time!').replace(/^Correct!\s*/, '')}`
+                  }
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         {!showFeedback && (
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 ${
+              selected === undefined
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl'
+            }`}
             onClick={handleCheck}
             disabled={selected === undefined}
           >
-            Check Answer
+            {selected === undefined ? 'Choose an answer first' : 'Check My Answer ✨'}
           </button>
         )}
         {showFeedback && (
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
             onClick={handleNext}
           >
-            {currentQuestion === questions.length - 1 ? "Complete Part" : "Next"}
+            {currentQuestion === questions.length - 1 ? "🎉 Complete Part" : "Continue →"}
           </button>
         )}
       </div>

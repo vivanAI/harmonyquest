@@ -21,7 +21,7 @@ import { Crown, Award, Medal, Zap } from "lucide-react"
 const leaderboard = [
   { rank: 1, name: "Elena Petrova", score: 1450, avatar: "https://placehold.co/100x100" },
   { rank: 2, name: "Kenji Tanaka", score: 1420, avatar: "https://placehold.co/100x100" },
-  { rank: 3, name: "Vivan Sharma", score: 1415, avatar: "https://placehold.co/100x100" },
+  { rank: 3, name: "You", score: 1415, avatar: "https://placehold.co/100x100" },
   { rank: 4, name: "Fatima Al-Jamil", score: 1390, avatar: "https://placehold.co/100x100" },
   { rank: 5, name: "David Chen", score: 1350, avatar: "https://placehold.co/100x100" },
 ]
@@ -99,7 +99,7 @@ export default function TriviaPage() {
             </TableHeader>
             <TableBody>
               {leaderboard.map((player, index) => (
-                <TableRow key={player.rank} className={player.name === 'Vivan Sharma' ? 'bg-primary/10' : ''}>
+                                 <TableRow key={player.rank} className={player.name === 'You' ? 'bg-primary/10' : ''}>
                   <TableCell className="font-bold text-lg text-center">
                     {index === 0 ? <Crown className="w-6 h-6 text-yellow-400 mx-auto" /> : player.rank}
                   </TableCell>
