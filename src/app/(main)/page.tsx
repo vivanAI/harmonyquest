@@ -150,16 +150,7 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
       
-      {/* Temporary Reset Button - Remove after testing */}
-      <div className="flex justify-center">
-        <Button 
-          variant="outline" 
-          onClick={resetStats}
-          className="bg-red-50 hover:bg-red-100 border-red-200 text-red-700"
-        >
-          Reset Stats (Testing)
-        </Button>
-      </div>
+
 
       {/* Discovery Cards */}
       <div className="grid gap-6 md:grid-cols-2">

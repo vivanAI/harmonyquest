@@ -98,19 +98,7 @@ export default function LearnPage() {
             </h1>
 
           </div>
-          <Button
-            onClick={() => {
-              // Reset both store and local state
-              useStatsStore.getState().resetStats();
-              setLessonProgress({});
-              setLessonsCompleted(0);
-            }}
-            variant="outline"
-            className="border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800"
-            title="Reset progress data"
-          >
-            Reset Progress
-          </Button>
+
         </div>
       </div>
       
